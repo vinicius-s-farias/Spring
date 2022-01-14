@@ -72,13 +72,6 @@ public class User {
         this.password = password;
     }
 
-    public double getDollar_balance() {
-        return dollar_balance;
-    }
-
-    public void setDollar_balance(double dollar_ballance) {
-        this.dollar_balance = dollar_balance;
-    }
 
     @Override
     public int hashCode() {
