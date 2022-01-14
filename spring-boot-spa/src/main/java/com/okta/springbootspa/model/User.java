@@ -23,15 +23,26 @@ public class User {
     private Timestamp created_on;
     private Timestamp updated_on;
 
+    public double getDollar_balance() {
+        return dollar_balance;
+    }
+
+    public void setDollar_balance(double dollar_balance) {
+        this.dollar_balance = dollar_balance;
+    }
+
     public Timestamp getCreated_on() {
+
         return created_on;
     }
 
     public String getUsername() {
+
         return username;
     }
 
     public void setUsername(String username) {
+
         this.username = username;
     }
 
@@ -41,34 +52,42 @@ public class User {
     }
 
     public Timestamp getUpdated_on() {
+
         return updated_on;
     }
 
     public void setUpdated_on(Timestamp updated_on) {
+
         this.updated_on = updated_on;
     }
 
     public boolean isEnabled() {
+
         return enabled;
     }
 
     public void setEnabled(boolean enabled) {
+
         this.enabled = enabled;
     }
 
     public Long getID() {
+
         return id;
     }
 
     public void setID(Long id) {
+
         this.id = id;
     }
 
     public String getPassword() {
+
         return password;
     }
 
     public void setPassword(String password) {
+
         this.password = password;
     }
 
