@@ -1,5 +1,9 @@
 package com.okta.springbootspa;
 
+import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Configuration;
@@ -14,8 +18,17 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+
 @SpringBootApplication
 public class SpringBootSpaApplication {
+
+	@Bean
+	public WebClient webClienStock(WebClient.Builder builder) {
+		return builder
+				.baseUrl("http://localhost:8082")
+				.defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+				.build();
+	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(SpringBootSpaApplication.class, args);
@@ -44,6 +57,8 @@ public class SpringBootSpaApplication {
 			String userName = principal != null ? principal.getName() : "Anonymous";
 			return userName + ", your developer's caffeine level is: " + getCaffeineLevel();
 		}
+
+
 	}
 
 	@Configuration
