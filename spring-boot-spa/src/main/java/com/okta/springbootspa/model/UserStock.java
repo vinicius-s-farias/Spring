@@ -6,17 +6,18 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Entity
+@IdClass(Chave.class)
 @Table(name = "users_stocks_balances")
 public class UserStock implements Serializable {
 
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @ManyToOne
     @JoinColumn(name = "id_user")
+    private User user;
+    @Id
     private Long id;
     private String stock_symbol;
     private String stock_name;
-    private double price;
     private Long volume;
     private Timestamp created_on;
     private Timestamp updated_on;
@@ -49,13 +50,6 @@ public class UserStock implements Serializable {
         this.volume = volume;
     }
 
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
 
     public String getStock_name() {
         return stock_name;
@@ -75,6 +69,14 @@ public class UserStock implements Serializable {
 
     public void setId(Long id) {
         this.id= id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override
@@ -111,4 +113,6 @@ public class UserStock implements Serializable {
         this.created_on = Timestamp.valueOf(LocalDateTime.now());
         this.updated_on = Timestamp.valueOf(LocalDateTime.now());
     }
+
+
 }

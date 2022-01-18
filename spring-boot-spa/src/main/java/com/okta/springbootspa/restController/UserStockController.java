@@ -11,20 +11,27 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.util.List;
+
 @RestController
 public class UserStockController {
     @Autowired
-    private UserStockService userStockService;
+//    private UserStockService userStockService;
     private UserStockRepository userStockRepository;
     @Autowired
     private WebClient webClienStock;
 
-    @GetMapping("/stocks/{id}")
-    public ResponseEntity<UserStock> obterPorCodigo(@PathVariable Long id,@RequestHeader("Authorization") String token) {
+//    @GetMapping("/stocks/{id}")
+//    public ResponseEntity<UserStock> obterPorCodigo(@PathVariable Long id,@RequestHeader("Authorization") String token) {
+//
+//        UserStock userStock = this.userStockService.obterPorCodigo(id, token);
+//
+//        return ResponseEntity.ok(userStock);
+//    }
 
-        UserStock userStock = this.userStockService.obterPorCodigo(id, token);
-
-        return ResponseEntity.ok(userStock);
+    @GetMapping("/teste")
+    public List<UserStock> listar()  {
+        return userStockRepository.findAll();
     }
 //
 //    WebClient.build().get().uri("http://localhost:8082/stocks/" id_stock)
