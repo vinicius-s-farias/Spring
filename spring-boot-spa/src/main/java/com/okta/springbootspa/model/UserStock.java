@@ -9,37 +9,48 @@ import java.time.LocalDateTime;
 @IdClass(Chave.class)
 @Table(name = "users_stocks_balances")
 public class UserStock implements Serializable {
-
     @Id
     @ManyToOne
     @JoinColumn(name = "id_user")
     private User user;
     @Id
-    private Long id;
+    private Long id_stock;
     private String stock_symbol;
     private String stock_name;
     private Long volume;
     private Timestamp created_on;
     private Timestamp updated_on;
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Long getId_stock() {
+        return id_stock;
+    }
+
+    public void setId_stock(Long id_stock) {
+        this.id_stock = id_stock;
+    }
+
     public String getStock_symbol() {
         return stock_symbol;
     }
 
-    public Timestamp getUpdated_on() {
-        return updated_on;
+    public void setStock_symbol(String stock_symbol) {
+        this.stock_symbol = stock_symbol;
     }
 
-    public void setUpdated_on(Timestamp updated_on) {
-        this.updated_on = updated_on;
+    public String getStock_name() {
+        return stock_name;
     }
 
-    public Timestamp getCreated_on() {
-        return created_on;
-    }
-
-    public void setCreated_on(Timestamp created_on) {
-        this.created_on = created_on;
+    public void setStock_name(String stock_name) {
+        this.stock_name = stock_name;
     }
 
     public Long getVolume() {
@@ -50,40 +61,35 @@ public class UserStock implements Serializable {
         this.volume = volume;
     }
 
-
-    public String getStock_name() {
-        return stock_name;
+    public Timestamp getCreated_on() {
+        return created_on;
     }
 
-    public void setStock_name(String stock_name) {
-        this.stock_name = stock_name;
+    public void setCreated_on(Timestamp created_on) {
+        this.created_on = created_on;
     }
 
-    public void setStock_symbol(String stock_symbol) {
-        this.stock_symbol = stock_symbol;
+    public Timestamp getUpdated_on() {
+        return updated_on;
     }
 
-    public Long getId() {
-        return id;
+    public void setUpdated_on(Timestamp updated_on) {
+        this.updated_on = updated_on;
     }
 
-    public void setId(Long id) {
-        this.id= id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
+    public UserStock(User user, Long id_stock, String stock_symbol, String stock_name, Long volume) {
         this.user = user;
+        this.id_stock = id_stock;
+        this.stock_symbol = stock_symbol;
+        this.stock_name = stock_name;
+        this.volume = volume;
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((id_stock == null) ? 0 : id_stock.hashCode());
         return result();
     }
 
@@ -100,10 +106,10 @@ public class UserStock implements Serializable {
         if (getClass() != obj.getClass())
             return false;
         UserStock other = (UserStock) obj;
-        if (id == null) {
-            if (other.id != null)
+        if (id_stock== null) {
+            if (other.id_stock != null)
                 return false;
-        } else if (!id.equals(other.id))
+        } else if (!id_stock.equals(other.id_stock))
             return false;
         return true;
 

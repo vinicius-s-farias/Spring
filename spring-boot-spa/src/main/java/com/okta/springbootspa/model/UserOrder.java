@@ -18,7 +18,7 @@ public class UserOrder {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JoinColumn(name = "id_user")
     private Long id;
-    private long id_stock;
+    private long id_oorder;
     private String stock_symbol;
     private String stock_name;
     private double price;
@@ -27,8 +27,44 @@ public class UserOrder {
     private Timestamp created_on;
     private Timestamp updated_on;
 
-    public Long getID() {
+    public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public long getId_oorder() {
+        return id_oorder;
+    }
+
+    public void setId_oorder(long id_oorder) {
+        this.id_oorder = id_oorder;
+    }
+
+    public String getStock_symbol() {
+        return stock_symbol;
+    }
+
+    public void setStock_symbol(String stock_symbol) {
+        this.stock_symbol = stock_symbol;
+    }
+
+    public String getStock_name() {
+        return stock_name;
+    }
+
+    public void setStock_name(String stock_name) {
+        this.stock_name = stock_name;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     public int getType() {
@@ -47,22 +83,6 @@ public class UserOrder {
         this.status = status;
     }
 
-    public void setID(Long id) {
-        this.id = id;
-    }
-
-    public long getId_stock() {
-        return id_stock;
-    }
-
-    public Timestamp getUpdated_on() {
-        return updated_on;
-    }
-
-    public void setUpdated_on(Timestamp updated_on) {
-        this.updated_on = updated_on;
-    }
-
     public Timestamp getCreated_on() {
         return created_on;
     }
@@ -71,32 +91,12 @@ public class UserOrder {
         this.created_on = created_on;
     }
 
-    public double getPrice() {
-        return price;
+    public Timestamp getUpdated_on() {
+        return updated_on;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public String getStock_name() {
-        return stock_name;
-    }
-
-    public void setStock_name(String stock_name) {
-        this.stock_name = stock_name;
-    }
-
-    public String getStock_symbol() {
-        return stock_symbol;
-    }
-
-    public void setStock_symbol(String stock_symbol) {
-        this.stock_symbol = stock_symbol;
-    }
-
-    public void setId_stock(long id_stock) {
-        this.id_stock = id_stock;
+    public void setUpdated_on(Timestamp updated_on) {
+        this.updated_on = updated_on;
     }
 
     @Override

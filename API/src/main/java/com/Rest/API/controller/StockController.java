@@ -21,8 +21,7 @@ public class StockController {
      private StockRepository stockRepository;
 
     @GetMapping("/stocks/{id}")
-    public Optional<Stock> obterStock(@PathVariable (value = "id")Long id) throws Exception {
-        Thread.sleep(3000);
+    public Optional<Stock> obterStock(@PathVariable (value = "id")Long id)  {
         return stockRepository.findById(id);
     }
 
@@ -34,7 +33,6 @@ public class StockController {
      @PostMapping("/stocks")
      public Stock adicionar(@RequestBody Stock stock) {
          return stockRepository.save(stock);
-
 
      }
 }

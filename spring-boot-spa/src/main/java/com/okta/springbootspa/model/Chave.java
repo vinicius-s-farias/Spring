@@ -1,30 +1,53 @@
 package com.okta.springbootspa.model;
 
+import javax.persistence.Embeddable;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import java.io.Serializable;
 import java.util.Objects;
 
+@Embeddable
 public class Chave implements Serializable {
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
-    private Long id;
+    private Long id_stock;
 
-
-    public Chave(String accountNumber, String accountType) {
-        this.user = user;
-        this.id = id;
+    public User getUser() {
+        return user;
     }
-    public Chave(){}
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Long getId_stock() {
+        return id_stock;
+    }
+
+    public void setId_stock(Long id_stock) {
+        this.id_stock= id_stock;
+    }
+
+
+//    public Chave(String accountNumber, String accountType) {
+//        this.user = user;
+//        this.id_stock = id_stock;
+//    }
+    public Chave() {}
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Chave)) return false;
         Chave chave = (Chave) o;
-        return user.equals(chave.user) && id.equals(chave.id);
+        return user.equals(chave.user) && id_stock.equals(chave.id_stock);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(user, id);
+        return Objects.hash(user, id_stock);
     }
 }
