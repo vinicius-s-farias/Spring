@@ -1,4 +1,6 @@
-package com.okta.springbootspa.model;
+package com.okta.springbootspa.keys;
+
+import com.okta.springbootspa.model.User;
 
 import javax.persistence.Embeddable;
 import javax.persistence.JoinColumn;
@@ -10,7 +12,7 @@ import java.util.Objects;
 public class Chave implements Serializable {
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "id_user")
     private User user;
 
     private Long id_stock;
@@ -31,11 +33,11 @@ public class Chave implements Serializable {
         this.id_stock= id_stock;
     }
 
+    public Chave(User user, Long id_stock) {
+        this.user = user;
+        this.id_stock = id_stock;
+    }
 
-//    public Chave(String accountNumber, String accountType) {
-//        this.user = user;
-//        this.id_stock = id_stock;
-//    }
     public Chave() {}
 
     @Override

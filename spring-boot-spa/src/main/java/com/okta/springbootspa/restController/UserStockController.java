@@ -49,7 +49,8 @@ public class UserStockController {
     public ResponseEntity<UserStock> saveStockB(@RequestBody UserStockDto uStock) {
         User us = userRepository.findById(uStock.getId_user()).orElseThrow();
         UserStock ust = uStock.transObj(us);
-       return new ResponseEntity<>(ust, HttpStatus.CREATED);
+       return new ResponseEntity<>(userStockRepository.save(ust), HttpStatus.CREATED);
+//        return userStockRepository.save(ust);
     }
 //
 //    WebClient.build().get().uri("http://localhost:8082/stocks/" id_stock)

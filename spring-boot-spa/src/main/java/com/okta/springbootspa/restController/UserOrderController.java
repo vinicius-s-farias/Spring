@@ -2,10 +2,17 @@ package com.okta.springbootspa.restController;
 
 import java.util.List;
 
+import com.okta.springbootspa.model.User;
 import com.okta.springbootspa.model.UserOrder;
+import com.okta.springbootspa.model.UserStock;
 import com.okta.springbootspa.repository.UserOrderRepository;
 
+import com.okta.springbootspa.repository.UserRepository;
+import com.okta.springbootspa.restController.dto.UserOrderDto;
+import com.okta.springbootspa.restController.dto.UserStockDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +25,8 @@ public class UserOrderController {
 
     @Autowired
     private UserOrderRepository userOrderRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @GetMapping("/usersorders")
     public List<UserOrder> listar() {
@@ -25,8 +34,11 @@ public class UserOrderController {
 
     }
 
-    @PostMapping("/usersorders")
-    public UserOrder adicionar(@RequestBody UserOrder userorder) {
-        return userOrderRepository.save(userorder);
+    @PostMapping("/order")
+    public ResponseEntity<UserOrder> saveStockB(@RequestBody UserOrderDto uOrder) {
+        User us = userRepository.findById(uOrder.getId_user()).orElseThrow();
+        UserOrder uso = uOrder.transObj(us);
+        return new ResponseEntity<>(userOrderRepository.save(uso), HttpStatus.CREATED);
+//        return userStockRepository.save(ust);
     }
 }

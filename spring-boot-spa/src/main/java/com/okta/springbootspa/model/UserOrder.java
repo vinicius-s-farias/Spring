@@ -1,136 +1,65 @@
 package com.okta.springbootspa.model;
 
+import com.okta.springbootspa.keys.Chave;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.Table;
+import javax.persistence.*;
 
+@Setter
+@Getter
 @Entity
 @Table(name = "users_orders")
-public class UserOrder {
+public class UserOrder implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id_order;
+    @ManyToOne
     @JoinColumn(name = "id_user")
-    private Long id;
-    private long id_oorder;
+    private User id_user;
+    private Long id_stock;
     private String stock_symbol;
     private String stock_name;
     private double price;
     private int type;
     private int status;
+    private Long volume;
     private Timestamp created_on;
     private Timestamp updated_on;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public long getId_oorder() {
-        return id_oorder;
-    }
-
-    public void setId_oorder(long id_oorder) {
-        this.id_oorder = id_oorder;
-    }
-
-    public String getStock_symbol() {
-        return stock_symbol;
-    }
-
-    public void setStock_symbol(String stock_symbol) {
+    public UserOrder(User id_user,Long id_stock, String stock_symbol, String stock_name,double price, int type, int status, Long volume) {
+        this.id_user = id_user;
+        this.id_stock = id_stock;
         this.stock_symbol = stock_symbol;
-    }
-
-    public String getStock_name() {
-        return stock_name;
-    }
-
-    public void setStock_name(String stock_name) {
         this.stock_name = stock_name;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
         this.price = price;
-    }
-
-    public int getType() {
-        return type;
-    }
-
-    public void setType(int type) {
         this.type = type;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
         this.status = status;
+        this.volume = volume;
+        this.created_on = Timestamp.valueOf(LocalDateTime.now());
+        this.updated_on = Timestamp.valueOf(LocalDateTime.now());
     }
 
-    public Timestamp getCreated_on() {
-        return created_on;
-    }
-
-    public void setCreated_on(Timestamp created_on) {
-        this.created_on = created_on;
-    }
-
-    public Timestamp getUpdated_on() {
-        return updated_on;
-    }
-
-    public void setUpdated_on(Timestamp updated_on) {
-        this.updated_on = updated_on;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserOrder userOrder = (UserOrder) o;
+        return id_order == userOrder.id_order;
     }
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
-        return result();
-    }
-
-    private int result() {
-        return 0;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        UserOrder other = (UserOrder) obj;
-        if (id == null) {
-            if (other.id != null)
-                return false;
-        } else if (!id.equals(other.id))
-            return false;
-        return true;
-
+        return Objects.hash(id_order);
     }
 
     public UserOrder() {
-        this.created_on = Timestamp.valueOf(LocalDateTime.now());
-        this.updated_on = Timestamp.valueOf(LocalDateTime.now());
+
     }
 }
