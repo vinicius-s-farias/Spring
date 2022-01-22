@@ -1,4 +1,4 @@
-package com.okta.springbootspa.restController.dto;
+package com.okta.springbootspa.dto;
 
 import com.okta.springbootspa.keys.Chave;
 import com.okta.springbootspa.model.User;
@@ -20,6 +20,7 @@ public class UserOrderDto {
     private double price;
     private int type;
     private int status;
+    private Long remaining_value;
 
 
 
@@ -32,7 +33,9 @@ public class UserOrderDto {
                 price,
                 type,
                 status,
-                volume
+                volume,
+                remaining_value
+
         );
     }
 }

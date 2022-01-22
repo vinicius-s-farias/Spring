@@ -1,4 +1,4 @@
-package com.okta.springbootspa.restController.dto;
+package com.okta.springbootspa.dto;
 
 import com.okta.springbootspa.keys.Chave;
 import com.okta.springbootspa.model.User;

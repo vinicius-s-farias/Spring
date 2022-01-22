@@ -4,12 +4,10 @@ import java.util.List;
 
 import com.okta.springbootspa.model.User;
 import com.okta.springbootspa.model.UserOrder;
-import com.okta.springbootspa.model.UserStock;
 import com.okta.springbootspa.repository.UserOrderRepository;
 
 import com.okta.springbootspa.repository.UserRepository;
-import com.okta.springbootspa.restController.dto.UserOrderDto;
-import com.okta.springbootspa.restController.dto.UserStockDto;
+import com.okta.springbootspa.dto.UserOrderDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

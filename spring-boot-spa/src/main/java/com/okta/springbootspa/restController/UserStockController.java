@@ -4,7 +4,7 @@ import com.okta.springbootspa.model.User;
 import com.okta.springbootspa.model.UserStock;
 import com.okta.springbootspa.repository.UserRepository;
 import com.okta.springbootspa.repository.UserStockRepository;
-import com.okta.springbootspa.restController.dto.UserStockDto;
+import com.okta.springbootspa.dto.UserStockDto;
 import com.okta.springbootspa.service.UserStockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 public class UserStockController {
@@ -36,7 +35,6 @@ public class UserStockController {
     @PostMapping("/stocks/{id}")
     public UserStock SalvarPorCodigo(@PathVariable Long id, @RequestHeader("Authorization") String token) {
         UserStock userStock = this.userStockService.SalvarPorCodigo(id, token);
-
         return userStockRepository.save(userStock);
     }
 
@@ -53,6 +51,8 @@ public class UserStockController {
 //        return userStockRepository.save(ust);
     }
 //
+
+
 //    WebClient.build().get().uri("http://localhost:8082/stocks/" id_stock)
 //    .retrieve()
 //    .bodytoMono(UserStock.class)

@@ -30,10 +30,11 @@ public class UserOrder implements Serializable {
     private int type;
     private int status;
     private Long volume;
+    private Long remaining_value;
     private Timestamp created_on;
     private Timestamp updated_on;
 
-    public UserOrder(User id_user,Long id_stock, String stock_symbol, String stock_name,double price, int type, int status, Long volume) {
+    public UserOrder(User id_user,Long id_stock, String stock_symbol, String stock_name,double price, int type, int status, Long volume,  Long remaining_value) {
         this.id_user = id_user;
         this.id_stock = id_stock;
         this.stock_symbol = stock_symbol;
@@ -41,6 +42,7 @@ public class UserOrder implements Serializable {
         this.price = price;
         this.type = type;
         this.status = status;
+        this.remaining_value = remaining_value;
         this.volume = volume;
         this.created_on = Timestamp.valueOf(LocalDateTime.now());
         this.updated_on = Timestamp.valueOf(LocalDateTime.now());
