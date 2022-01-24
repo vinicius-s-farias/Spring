@@ -25,12 +25,15 @@ public class StockController {
         return stockRepository.findById(id);
     }
 
+    @PutMapping("/teste")
+    public Stock UpAsk(@RequestBody )
+
      @GetMapping("/stocks")
      public List<Stock> listar()  {
          return stockRepository.findAll();
      }
 
-     @PostMapping("/stocks")
+     @PutMapping("/stocks")
      public Stock adicionar(@RequestBody Stock stock) {
          return stockRepository.save(stock);
 

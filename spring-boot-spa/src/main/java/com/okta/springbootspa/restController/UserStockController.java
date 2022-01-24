@@ -17,7 +17,7 @@ import java.util.List;
 @RestController
 public class UserStockController {
     @Autowired
-       private UserStockService userStockService;
+    private UserStockService userStockService;
     @Autowired
     private UserStockRepository userStockRepository;
     @Autowired
@@ -27,11 +27,10 @@ public class UserStockController {
 
     @GetMapping("/stocks/{id}")
     public ResponseEntity<UserStock> obterPorCodigo(@PathVariable Long id,@RequestHeader("Authorization") String token) {
-
         UserStock userStock = this.userStockService.obterPorCodigo(id, token);
-
         return ResponseEntity.ok(userStock);
     }
+
     @PostMapping("/stocks/{id}")
     public UserStock SalvarPorCodigo(@PathVariable Long id, @RequestHeader("Authorization") String token) {
         UserStock userStock = this.userStockService.SalvarPorCodigo(id, token);
