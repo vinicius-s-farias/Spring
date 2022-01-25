@@ -12,6 +12,7 @@ import java.sql.Timestamp;
 @Setter
 @Getter
 public class UserOrderDto {
+    private Long id_order;
     private Long id_user;
     private Long id_stock;
     private String stock_symbol;
@@ -23,10 +24,10 @@ public class UserOrderDto {
     private Long remaining_value;
 
 
-
     public UserOrder transObj(User user){
         return new UserOrder(
                 user,
+                id_user,
                 id_stock,
                 stock_symbol,
                 stock_name,

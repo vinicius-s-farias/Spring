@@ -26,8 +26,8 @@ public class UserStockController {
     private WebClient webClienStock;
 
     @GetMapping("/stocks/{id}")
-    public ResponseEntity<UserStock> obterPorCodigo(@PathVariable Long id,@RequestHeader("Authorization") String token) {
-        UserStock userStock = this.userStockService.obterPorCodigo(id, token);
+    public ResponseEntity<UserStock> obterPorCodigo(@PathVariable Long id_stock,@RequestHeader("Authorization") String token) {
+        UserStock userStock = this.userStockService.obterPorCodigo(id_stock, token);
         return ResponseEntity.ok(userStock);
     }
 

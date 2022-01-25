@@ -34,8 +34,9 @@ public class UserOrder implements Serializable {
     private Timestamp created_on;
     private Timestamp updated_on;
 
-    public UserOrder(User id_user,Long id_stock, String stock_symbol, String stock_name,double price, int type, int status, Long volume,  Long remaining_value) {
+    public UserOrder(User id_user,Long id_order, Long id_stock, String stock_symbol, String stock_name,double price, int type, int status, Long volume,  Long remaining_value) {
         this.id_user = id_user;
+        this.id_order = id_order;
         this.id_stock = id_stock;
         this.stock_symbol = stock_symbol;
         this.stock_name = stock_name;
