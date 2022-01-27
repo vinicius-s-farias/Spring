@@ -24,10 +24,11 @@ public class CompraControler {
 
     @PostMapping("/compra")
     public UserOrder compra(@RequestBody UserOrderDto dto) throws SQLException {
-        if(dto.getType() == 0){
+        if(dto.getType() == 1){
             List<UserOrder> userOrders =compraRepository.findByTypeStock(dto.getId_stock());
             List<UserOrder> userStatus = compraRepository.findByStatus();
-
+            List<UserOrder> userteste= compraRepository.fyndteste();
+            List<UserOrder> userteste1= compraRepository.findtTeste1();
             if (userOrders != null){
                 List<UserOrder> userFind = compraRepository.findByCalculo();
                 System.out.println(dto.getStatus());
@@ -36,20 +37,35 @@ public class CompraControler {
 
                     for (UserOrder cont: userFind) {
 //                        compraRepository.updateRemainingValue(cont);
-                        dto.setRemaining_value() =  ;
+//                        compraRepository.atualizarBalance(cont.getId_user(), cont.getId_stock());
+                    }
+                }
+//                if (!userStatus.isEmpty()){
+//                    for (UserOrder cont: userStatus) {
+//                        System.out.println("novo");
+//                        compraRepository.updateDollarBalance(cont.getId_user());
+////                        compraRepository.updateStatus2(cont);
+//                    }
+//
+//                }
+                if(!userteste.isEmpty()){
+                    System.out.println("Cheigueieie");
+                    for ( UserOrder cont: userteste ) {
                         compraRepository.updateStatus(cont);
+                        compraRepository.updateDollarBalance(cont.getId_user());
+                        compraRepository.AtuaalizarValue(cont);
                         compraRepository.atualizarBalance(cont.getId_user(), cont.getId_stock());
                     }
                 }
-                if (!userStatus.isEmpty()){
-                    for (UserOrder cont: userStatus) {
-                        System.out.println("novo");
-                        compraRepository.updateDollarBalance(cont.getId_user());
-                        compraRepository.updateStatus2(cont);
+                if(!userteste1.isEmpty()){
+                    System.out.println("alouuuuuuuu");
+                    for (UserOrder cont:userteste1) {
+                        compraRepository.updateDollarBalance2(cont.getId_user());
+                        compraRepository.updateStatus(cont);
+                        compraRepository.AtuaalizarValue(cont);
+                        compraRepository.atualizarBalance(cont.getId_user(), cont.getId_stock());
                     }
-
                 }
-
             }
         }
         return null;

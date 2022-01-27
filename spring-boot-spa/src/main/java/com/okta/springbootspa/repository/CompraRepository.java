@@ -29,18 +29,25 @@ public interface CompraRepository extends JpaRepository<UserOrder, Long > {
     //Ele atualiza o raimaning value conforme compras são realizadas
 
     @Modifying
-    @Query(value = "UPDATE users_orders SET status = 1 WHERE id_order = ?1 and remaining_value <> volume", nativeQuery = true)
+    @Query(value = "UPDATE users_orders SET status = 2 WHERE id_order = ?1 and remaining_value = 0", nativeQuery = true)
     int updateStatus(UserOrder id_order);
 
-    @Modifying
-    @Query(value = "UPDATE users_orders SET status = 3 WHERE id_order = ?1 and remaining_value = 0 ", nativeQuery = true)
-    int updateStatus2(UserOrder id_order);
+//    @Modifying
+//    @Query(value = "UPDATE users_orders SET status = 3 WHERE id_order = ?1 and remaining_value = 0 ", nativeQuery = true)
+//    int updateStatus2(UserOrder id_order);
 
     @Modifying
-    @Query(value = "update users set dollar_balance = (select a.volume  * uo.price - u.dollar_balance "   + " FROM users_orders a, users_orders uo " +
+    @Query(value = "update users set dollar_balance = (select  u.dollar_balance - a.remaining_value  * uo.price  "   + " FROM users_orders a, users_orders uo " +
             "inner join users u on uo.id_user = u.id " +
-            "where a.status = 1  and a.id_stock = uo.id_stock and a.type = 1 and a.status = uo.status and uo.id_order <> a.id_order and u.id = 1) where id = 1", nativeQuery = true)
+            "where a.status = 1  and a.id_stock = uo.id_stock and a.type = 1 and a.status = uo.status and  u.id = ?1) where id = ?1", nativeQuery = true)
             int updateDollarBalance (User user);
+
+    @Modifying
+    @Query(value = "update users set dollar_balance = (select  u.dollar_balance - uo.remaining_value  * uo.price  "   + " FROM users_orders a, users_orders uo " +
+            "inner join users u on uo.id_user = u.id " +
+            "where a.status = 1  and a.id_stock = uo.id_stock and a.type = 1 and a.status = uo.status and  u.id = ?1) where id = ?1", nativeQuery = true)
+    int updateDollarBalance2 (User user);
+
         // atauliza dinheiro do usuario quando comrpas
 
     @Query(value = "SELECT * from users_orders where status =1 and type = 0 ", nativeQuery = true)
@@ -48,8 +55,27 @@ public interface CompraRepository extends JpaRepository<UserOrder, Long > {
     // seleciona compras abertas
 
     @Modifying
-    @Query(value = "update users_stocks_balances set volume = (select MIN (usb.volume + (usb.volume - uo.remaining_value)) AS ID FROM users_orders uo inner join users u on uo.id_user = u.id inner join users_stocks_balances usb on u.id = usb.id_user where uo.id_user = ?1 and uo.id_stock = ?2) where id_user = ?1 and id_stock = ?2", nativeQuery = true)
+    @Query(value = "update users_stocks_balances set volume = (select MIN (usb.volume + a.volume) AS ID FROM users_orders a, users_orders uo inner join users u on uo.id_user = u.id " +
+            "inner join users_stocks_balances usb on u.id = usb.id_user " +
+            "where uo.id_user = ?1 and uo.id_stock = ?2) where id_user = ?1 and id_stock = ?2", nativeQuery = true)
     int atualizarBalance(User id_user, Long id_stock);
     // calaculo do Stock balance quando realizada a compra
+
+    @Query (value = " select * from " +
+            "users_orders a, users_orders b where a.remaining_value > b.volume and a.type = 0 ", nativeQuery = true)
+    List <UserOrder> fyndteste();
+
+    @Modifying
+    @Query(value = " update users_orders  set remaining_value = (SELECT MAX(a.remaining_value) - MIN(b.volume)AS ID FROM users_orders a, users_orders b  WHERE a.type <> b.type  and a.id_stock = b.id_stock and a.id_order= ?1) where id_order= ?1 and type = 0 ",nativeQuery = true)
+    int atualizarvalue(UserOrder id_order);
+
+    @Query(value = "select * from " +
+            "           users_orders a, users_orders b where  a.remaining_value < b.volume and a.type = 0 and a.status = 1", nativeQuery = true)
+    List<UserOrder>findtTeste1();
+
+    @Modifying
+    @Query(value = " update users_orders  set remaining_value = (select (MAX(a.remaining_value ) - MIN(b.remaining_value)) from " +
+            "  users_orders a, users_orders b where  a.type =0 ) where id_order=?1 and type = 0",nativeQuery = true )
+    int AtuaalizarValue(UserOrder id_order);
 
 }
