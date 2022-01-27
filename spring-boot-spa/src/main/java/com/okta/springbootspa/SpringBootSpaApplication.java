@@ -58,7 +58,6 @@ public class SpringBootSpaApplication {
 			return userName + ", your developer's caffeine level is: " + getCaffeineLevel();
 		}
 
-
 	}
 
 	@Configuration

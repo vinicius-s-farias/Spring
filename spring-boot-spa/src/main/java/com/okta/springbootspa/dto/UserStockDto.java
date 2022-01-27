@@ -16,7 +16,6 @@ public class UserStockDto {
     private Long volume;
 
 
-
     public UserStock transObj(User user){
         return new UserStock(
               new Chave(user, id_stock),
