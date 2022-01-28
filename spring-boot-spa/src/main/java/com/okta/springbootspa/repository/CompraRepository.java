@@ -40,7 +40,7 @@ public interface CompraRepository extends JpaRepository<UserOrder, Long > {
     @Query(value = "update users set dollar_balance = (select  u.dollar_balance - a.remaining_value  * uo.price  "   + " FROM users_orders a, users_orders uo " +
             "inner join users u on uo.id_user = u.id " +
             "where a.status = 1  and a.id_stock = uo.id_stock and a.type = 1 and a.status = uo.status and  u.id = ?1) where id = ?1", nativeQuery = true)
-            int updateDollarBalance (User user);
+    int updateDollarBalance (User user);
 
     @Modifying
     @Query(value = "update users set dollar_balance = (select  u.dollar_balance - uo.remaining_value  * uo.price  "   + " FROM users_orders a, users_orders uo " +
@@ -48,17 +48,19 @@ public interface CompraRepository extends JpaRepository<UserOrder, Long > {
             "where a.status = 1  and a.id_stock = uo.id_stock and a.type = 1 and a.status = uo.status and  u.id = ?1) where id = ?1", nativeQuery = true)
     int updateDollarBalance2 (User user);
 
-        // atauliza dinheiro do usuario quando comrpas
+    // atauliza dinheiro do usuario quando comrpas
 
     @Query(value = "SELECT * from users_orders where status =1 and type = 0 ", nativeQuery = true)
     List<UserOrder> findByStatus();
     // seleciona compras abertas
 
     @Modifying
-    @Query(value = "update users_stocks_balances set volume = (select MIN (usb.volume + a.volume) AS ID FROM users_orders a, users_orders uo inner join users u on uo.id_user = u.id " +
-            "inner join users_stocks_balances usb on u.id = usb.id_user " +
-            "where uo.id_user = ?1 and uo.id_stock = ?2) where id_user = ?1 and id_stock = ?2", nativeQuery = true)
-    int atualizarBalance(User id_user, Long id_stock);
+    @Query(value = "update users_stocks_balances set volume = (select a.volume - a.remaining_value " +
+            " AS ID FROM users_orders a, users_orders uo " +
+            " inner join users u on uo.id_user = u.id " +
+            " inner join users_stocks_balances usb on u.id = usb.id_user " +
+            " WHERE a.type <> uo.type  and a.id_stock = uo.id_stock and a.id_order= ?1 ) where id_user = ?2 and id_stock = ?3", nativeQuery = true)
+    int atualizarBalance(Long id_order, User id_user, Long id_stock);
     // calaculo do Stock balance quando realizada a compra
 
     @Query (value = " select * from " +

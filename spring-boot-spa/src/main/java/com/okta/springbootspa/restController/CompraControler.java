@@ -6,6 +6,7 @@ import com.okta.springbootspa.repository.CompraRepository;
 import com.okta.springbootspa.repository.UserOrderRepository;
 import com.okta.springbootspa.dto.UserOrderDto;
 import com.okta.springbootspa.repository.UserRepository;
+import jdk.swing.interop.SwingInterOpUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -51,19 +52,19 @@ public class CompraControler {
                 if(!userteste.isEmpty()){
                     System.out.println("Cheigueieie");
                     for ( UserOrder cont: userteste ) {
-                        compraRepository.updateStatus(cont);
                         compraRepository.updateDollarBalance(cont.getId_user());
                         compraRepository.AtuaalizarValue(cont);
-                        compraRepository.atualizarBalance(cont.getId_user(), cont.getId_stock());
+                        compraRepository.updateStatus(cont);
+                        compraRepository.atualizarBalance(cont.getId_order(), cont.getId_user(), cont.getId_stock());
                     }
                 }
-                if(!userteste1.isEmpty()){
+                if(!userteste1.isEmpty()) {
                     System.out.println("alouuuuuuuu");
-                    for (UserOrder cont:userteste1) {
+                    for (UserOrder cont:userteste1)  {
                         compraRepository.updateDollarBalance2(cont.getId_user());
-                        compraRepository.updateStatus(cont);
                         compraRepository.AtuaalizarValue(cont);
-                        compraRepository.atualizarBalance(cont.getId_user(), cont.getId_stock());
+                        compraRepository.updateStatus(cont);
+                        compraRepository.atualizarBalance(cont.getId_order(),cont.getId_user(), cont.getId_stock());
                     }
                 }
             }
@@ -72,6 +73,9 @@ public class CompraControler {
     }
 
 
-    }
+}
+
+
+
 
 

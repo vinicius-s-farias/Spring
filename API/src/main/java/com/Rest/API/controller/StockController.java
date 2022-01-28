@@ -26,7 +26,7 @@ public class StockController {
     }
 
     @PutMapping("/teste")
-    public Stock UpAsk(@RequestBody )
+    public Stock UpAsk(@RequestBody );
 
      @GetMapping("/stocks")
      public List<Stock> listar()  {
