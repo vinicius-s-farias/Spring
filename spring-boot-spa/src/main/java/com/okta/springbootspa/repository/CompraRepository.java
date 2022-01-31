@@ -73,11 +73,13 @@ public interface CompraRepository extends JpaRepository<UserOrder, Long > {
 
     @Query(value = "select * from " +
             "           users_orders a, users_orders b where  a.remaining_value < b.volume and a.type = 0 and a.status = 1", nativeQuery = true)
-    List<UserOrder>findtTeste1();
+    List<UserOrder>findtTesteN();
 
     @Modifying
     @Query(value = " update users_orders  set remaining_value = (select (MAX(a.remaining_value ) - MIN(b.remaining_value)) from " +
             "  users_orders a, users_orders b where  a.type =0 ) where id_order=?1 and type = 0",nativeQuery = true )
     int AtuaalizarValue(UserOrder id_order);
+
+
 
 }
