@@ -13,9 +13,16 @@ import javax.transaction.Transactional;
 @Repository
 public interface UserStockRepository extends JpaRepository<UserStock, Long> {
 
-    @Modifying
-    @Query(value = "insert into users_stocks_balances(id_user, id, stock_name,stock_symbol, volume)  VALUES ('?', '?', '?', '?', '?')", nativeQuery = true)
-    @Transactional
-    void logURI(@Param("id_user") Long id_user, @Param("id") Long id, @Param("stock_name") String  stock_name, @Param("stock_symbol") String stock_symbol,@Param("volume") Long volume);
+    @Query(value = "select MAX(price) from users_orders where id_stock = 3 and status = 1 and type= 1 ", nativeQuery = true)
+    Double UpdateAsk_max();
+
+    @Query(value = "select MIN(price) from user_orders where id_stock = 3 and status = 1 and type = 1 ", nativeQuery = true)
+    Double UpdateAsk_min();
+
+    @Query(value = "select MAX(price) from user_orders where id_stock = 3 and status = 1 and type = 0 ", nativeQuery = true)
+    Double UpdateBid_max();
+
+    @Query(value = "select MIN(price) from user_orders where id_stock = 3 and status = 1 and type = 0 ", nativeQuery = true)
+    Double UpdateBid_min();
 
 }

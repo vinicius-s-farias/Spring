@@ -11,13 +11,16 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 
-    @Repository
+        @Transactional
+        @Repository
+        public interface UserOrderRepository extends JpaRepository<UserOrder, Long > {
 
-    public interface UserOrderRepository extends JpaRepository<UserOrder, Long> {
 
 
 
-    }
+        }
+
+
 
 
 
