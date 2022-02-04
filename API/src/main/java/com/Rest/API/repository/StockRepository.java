@@ -10,8 +10,4 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface StockRepository extends JpaRepository<Stock, Long> {
 
-    @Modifying
-    @Query(value = "UPDATE stocks SET ask_min = ?1 WHERE id = ?1", nativeQuery = true)
-    int updateStatus(Double ask_min,Stock id);
-
 }

@@ -2,16 +2,14 @@ package com.okta.springbootspa.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Setter
 @Getter
@@ -26,10 +24,12 @@ public class User implements Serializable {
     private String password;
     private double dollar_balance;
     private boolean enabled;
+    @CreationTimestamp
+    @Column(name = "created_on")
     private Timestamp created_on;
+    @UpdateTimestamp
+    @Column(name = "updated_on")
     private Timestamp updated_on;
-
-
 
     @Override
     public int hashCode() {
@@ -58,12 +58,6 @@ public class User implements Serializable {
         } else if (!id.equals(other.id))
             return false;
         return true;
-
     }
 
-    public User() {
-        this.enabled = true;
-        this.created_on = Timestamp.valueOf(LocalDateTime.now());
-        this.updated_on = Timestamp.valueOf(LocalDateTime.now());
-    }
 }

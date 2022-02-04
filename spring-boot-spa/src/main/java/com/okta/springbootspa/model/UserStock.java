@@ -3,6 +3,8 @@ package com.okta.springbootspa.model;
 import com.okta.springbootspa.keys.Chave;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -21,9 +23,12 @@ public class UserStock implements Serializable {
     private String stock_symbol;
     private String stock_name;
     private Long volume;
+    @CreationTimestamp
+    @Column(name = "created_on")
     private Timestamp created_on;
+    @UpdateTimestamp
+    @Column(name = "updated_on")
     private Timestamp updated_on;
-
 
     public UserStock(Chave id, String stock_symbol, String stock_name, Long volume) {
         this.id = id;
@@ -31,7 +36,9 @@ public class UserStock implements Serializable {
         this.stock_name = stock_name;
         this.volume = volume;
     }
+    public UserStock() {
 
+    }
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -59,13 +66,6 @@ public class UserStock implements Serializable {
         } else if (!id.equals(other.id))
             return false;
         return true;
-
     }
-
-    public UserStock() {
-        this.created_on = Timestamp.valueOf(LocalDateTime.now());
-        this.updated_on = Timestamp.valueOf(LocalDateTime.now());
-    }
-
 
 }

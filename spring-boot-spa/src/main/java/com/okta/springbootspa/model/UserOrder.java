@@ -3,6 +3,8 @@ package com.okta.springbootspa.model;
 import com.okta.springbootspa.keys.Chave;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -31,7 +33,11 @@ public class UserOrder implements Serializable {
     private int status;
     private Long volume;
     private Long remaining_value;
+    @CreationTimestamp
+    @Column(name = "created_on")
     private Timestamp created_on;
+    @UpdateTimestamp
+    @Column(name = "updated_on")
     private Timestamp updated_on;
 
     public UserOrder(User id_user,Long id_order, Long id_stock, String stock_symbol, String stock_name,double price, int type, int status, Long volume,  Long remaining_value) {
@@ -45,10 +51,7 @@ public class UserOrder implements Serializable {
         this.status = status;
         this.remaining_value = remaining_value;
         this.volume = volume;
-        this.created_on = Timestamp.valueOf(LocalDateTime.now());
-        this.updated_on = Timestamp.valueOf(LocalDateTime.now());
     }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -56,13 +59,10 @@ public class UserOrder implements Serializable {
         UserOrder userOrder = (UserOrder) o;
         return id_order == userOrder.id_order;
     }
-
     @Override
     public int hashCode() {
         return Objects.hash(id_order);
     }
 
-    public UserOrder() {
-
-    }
+    public UserOrder() {}
 }

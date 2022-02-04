@@ -10,6 +10,7 @@ import com.okta.springbootspa.repository.UserOrderRepository;
 
 import com.okta.springbootspa.repository.UserRepository;
 import com.okta.springbootspa.dto.UserOrderDto;
+import com.okta.springbootspa.service.UserStockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -19,14 +20,14 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
-
 @RestController
 public class UserOrderController {
     @Autowired
     private UserOrderRepository userOrderRepository;
     @Autowired
     private UserRepository userRepository;
-
+    @Autowired
+    private UserStockService userStockService;
 
     @GetMapping("/usersorders")
     public List<UserOrder> listar() {
@@ -34,12 +35,19 @@ public class UserOrderController {
     }
 
     @PostMapping("/order")
-    public ResponseEntity<UserOrder> saveStockB(@RequestBody UserOrderDto uOrder) {
-        User us = userRepository.findById(uOrder.getId_user()).orElseThrow();
-        UserOrder uso = uOrder.transObj(us);
-        return new ResponseEntity<>(userOrderRepository.save(uso), HttpStatus.CREATED);
+    public ResponseEntity<UserOrder> criaOrdem(@RequestBody UserOrderDto dto ,@RequestHeader("Authorization") String token) {
+        User user = userRepository.findById(dto.getId_user()).orElseThrow();
+        Double dollar = user.getDollar_balance();
+        Double mult = dto.getPrice() * dto.getVolume();
+        if(dollar >= mult) {
+            UserOrder userOrders = userOrderRepository.save(dto.transObj(user));
+            userStockService.teste1(userOrders.getId_stock(), token);
+            return new ResponseEntity<>(userOrders, HttpStatus.CREATED);
+        } else {
+            System.out.println("Ordem não criada, valor insuficiente");
+        }
+        return null;
     }
-
 
 }
 

@@ -36,7 +36,6 @@ public class UserOrderDto {
                 status,
                 volume,
                 remaining_value
-
         );
     }
 }

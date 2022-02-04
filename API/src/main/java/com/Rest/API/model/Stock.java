@@ -2,21 +2,20 @@ package com.Rest.API.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Setter
 @Getter
 @Entity
 @Table(name = "stocks")
-public class Stock {
+public class Stock implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,7 +26,11 @@ public class Stock {
     private Double ask_max;
     private Double bid_min;
     private Double bid_max;
+    @CreationTimestamp
+    @Column(name = "created_on")
     private Timestamp created_on;
+    @UpdateTimestamp
+    @Column(name = "updated_on")
     private Timestamp updated_on;
 
     @Override
@@ -60,8 +63,4 @@ public class Stock {
 
     }
 
-    public Stock() {
-        this.created_on = Timestamp.valueOf(LocalDateTime.now());
-        this.updated_on = Timestamp.valueOf(LocalDateTime.now());
-    }
 }

@@ -10,7 +10,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
 
 import java.util.Arrays;
@@ -62,7 +64,6 @@ public class UserStockService {
     public StockDto Update(@PathVariable("id") Long id, @RequestBody StockDto stock, @RequestHeader("Authorization") String token) {
         Mono<StockDto> monoStock = this.webClienStock
                 .method(HttpMethod.PUT)
-                .body()
                 .uri("/stocks/{id}", id)
                 .header(HttpHeaders.AUTHORIZATION, token)
                 .retrieve()
@@ -76,11 +77,23 @@ public class UserStockService {
     }
 
 
-
-
-
-
-
-
+    public StockDto teste1(Long id, @RequestHeader("Authorization") String token) {
+        JSONObject json = new JSONObject();
+        json.put("id", id);
+        json.put("ask_min", userStockRepository.getAskMin(id));
+        json.put("ask_max", userStockRepository.getAskMax(id));
+        json.put("bid_min", userStockRepository.getBidMin(id));
+        json.put("bid_max", userStockRepository.getBidMax(id));
+        Mono<StockDto> monoStock =
+                this.webClienStock
+                        .post()
+                        .uri("/teste")
+                        .header(HttpHeaders.AUTHORIZATION, token)
+                        .body(BodyInserters.fromValue(json))
+                        .retrieve()
+                        .bodyToMono(StockDto.class);
+        StockDto stock = monoStock.block();
+        return stock;
+    }
 
 }
