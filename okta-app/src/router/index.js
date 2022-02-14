@@ -3,6 +3,7 @@ import { LoginCallback, navigationGuard } from "@okta/okta-vue";
 import HomeComponent from "@/components/Home";
 import LoginComponent from "@/components/Login";
 import ProfileComponent from "@/components/Profile";
+import About from "@/views/About";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -13,6 +14,10 @@ const router = createRouter({
       meta: {
         requiresAuth: true,
       },
+    },
+    {
+      path: "/About",
+      component: About,
     },
     {
       path: "/login",
