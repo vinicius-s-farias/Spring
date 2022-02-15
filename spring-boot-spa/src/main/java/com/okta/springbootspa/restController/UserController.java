@@ -1,14 +1,13 @@
 package com.okta.springbootspa.restController;
 
-import java.util.List;
-
 import com.okta.springbootspa.model.User;
 import com.okta.springbootspa.repository.UserRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 
+@CrossOrigin
 @RestController
 public class UserController {
 

@@ -1,9 +1,6 @@
 package com.okta.springbootspa.dto;
 
-import com.okta.springbootspa.keys.Chave;
 import com.okta.springbootspa.model.User;
-import com.okta.springbootspa.model.UserOrder;
-import com.okta.springbootspa.model.UserStock;
 import lombok.Getter;
 import lombok.Setter;
 

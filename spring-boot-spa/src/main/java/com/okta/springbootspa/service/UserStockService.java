@@ -2,23 +2,15 @@ package com.okta.springbootspa.service;
 
 import com.nimbusds.jose.shaded.json.JSONObject;
 import com.okta.springbootspa.dto.StockDto;
-import com.okta.springbootspa.dto.UserStockDto;
 import com.okta.springbootspa.model.UserStock;
 import com.okta.springbootspa.repository.UserStockRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
-
-import java.util.Arrays;
-import java.util.List;
-
-import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @RestController
 
