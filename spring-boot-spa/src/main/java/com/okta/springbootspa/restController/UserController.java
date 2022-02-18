@@ -30,4 +30,12 @@ public class UserController {
     public User atualizaUser(@RequestBody User user) {
         return userRepository.save(user);
     }
+
+
+//    @GetMapping("/{username}")
+//    public List <User> list(@PathVariable ("username")String username){
+//        return userRepository.FindUser(username);
+//    }
+
+
 }

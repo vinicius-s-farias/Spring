@@ -17,10 +17,10 @@ public interface VendaRepository extends JpaRepository<UserOrder, Long> {
         List<UserOrder> findMatches(Long id_stock);//procurar ordens de venda abertas
 
         @Query(value = "select * from " +
-                " users_orders a, users_orders b where a.remaining_value < b.volume and  a.type = 1 and a.id_stock = b.id_stock and a.id_order <> b.id_order  and a.status <>2 and a.type <> b.type order by a.created_on asc", nativeQuery = true)
+                " users_orders a, users_orders b where a.remaining_value < b.remaining_value and  a.type = 1 and a.id_stock = b.id_stock and a.id_order <> b.id_order  and a.status = 1 and b.status = 1  and a.type <> b.type and a.price <= b.price order by a.created_on asc", nativeQuery = true)
         List<UserOrder> findSaleNE();
 
-        @Query(value = "SELECT * FROM users_orders a, users_orders b  where a.type <> b.type  and a.remaining_value > b.volume and a.type = 1  and a.id_stock = b.id_stock and a.status = b.status ", nativeQuery = true)
+        @Query(value = "SELECT * FROM users_orders a, users_orders b  where a.type <> b.type  and a.remaining_value >= b.remaining_value and a.type = 1  and a.id_stock = b.id_stock and a.status = b.status and a.status = 1 and b.status = 1  and a.price <= b.price order by a.created_on asc ", nativeQuery = true)
         List<UserOrder> findSalePO();//Pegando matches
 
         @Modifying
@@ -33,7 +33,7 @@ public interface VendaRepository extends JpaRepository<UserOrder, Long> {
 
 
         @Modifying
-        @Query(value = "update users set dollar_balance = ( select a.volume * a.price + u.dollar_balance " +
+        @Query(value = "update users set dollar_balance = ( select a.remaining_value * uo.price + u.dollar_balance " +
                 " FROM users_orders a, users_orders uo " +
                 " inner join users u on uo.id_user = u.id " +
                 " where uo.status = 1  and a.id_stock = uo.id_stock and uo.type = 1 and uo.id_order <> a.id_order and uo.id_user = ?1 fetch first 1 rows only) where id = ?1", nativeQuery = true)
@@ -48,8 +48,8 @@ public interface VendaRepository extends JpaRepository<UserOrder, Long> {
         int updateDollarBalanceNE(UserOrder id_order, User user);
 
         @Modifying
-        @Query(value = "update users_orders  set remaining_value = (SELECT  a.remaining_value - b.volume AS ID FROM users_orders a, users_orders b  WHERE a.type =1  and a.id_stock = b.id_stock and a.id_stock = ?1 and a.id_order <> b.id_order fetch first 1 rows only) where type =  1 AND id_order=?2", nativeQuery = true)
-        int updateRemainingPO(Long id_stock, UserOrder id_order);//Ele atualiza remaining value quando há match
+        @Query(value = "update users_orders  set remaining_value = (SELECT  a.remaining_value - b.remaining_value  AS ID FROM users_orders b, users_orders a  WHERE a.type = 1 and b.status = 1 and a.type <> b.type  and a.id_stock = b.id_stock and a.id_order = ?1 fetch first 1 rows only ) where type = 1 AND id_order = ?1", nativeQuery = true)
+        int updateRemainingPO( UserOrder id_order);//Ele atualiza remaining value quando há match
 
         @Modifying
         @Query(value = "update users_orders  set remaining_value = 0 where id_order=?1 and type = 1 ", nativeQuery = true)

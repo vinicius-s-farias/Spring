@@ -5,6 +5,7 @@ import com.okta.springbootspa.model.User;
 import com.okta.springbootspa.model.UserOrder;
 import com.okta.springbootspa.repository.UserOrderRepository;
 import com.okta.springbootspa.repository.UserRepository;
+import com.okta.springbootspa.service.MatchService;
 import com.okta.springbootspa.service.UserStockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,8 @@ public class UserOrderController {
     private UserRepository userRepository;
     @Autowired
     private UserStockService userStockService;
+    @Autowired
+    private MatchService matchService;
 
     @GetMapping("/orders")
     public List<UserOrder> listar() {
@@ -32,9 +35,10 @@ public class UserOrderController {
         User user = userRepository.findById(dto.getId_user()).orElseThrow();
         Double dollar = user.getDollar_balance();
         Double mult = dto.getPrice() * dto.getVolume();
-        if(dollar >= mult) {
+        if(dollar >= mult ) {
             UserOrder userOrders = userOrderRepository.save(dto.transObj(user));
             userStockService.teste1(userOrders.getId_stock(), token);
+            matchService.match();
             return new ResponseEntity<>(userOrders, HttpStatus.CREATED);
         } else {
             System.out.println("Ordem não criada, valor insuficiente");
