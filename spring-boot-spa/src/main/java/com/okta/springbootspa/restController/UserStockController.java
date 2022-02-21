@@ -1,8 +1,10 @@
 package com.okta.springbootspa.restController;
 
+import com.okta.springbootspa.configuration.TreinamentoDefaultException;
 import com.okta.springbootspa.dto.StockDto;
 import com.okta.springbootspa.dto.UserStockDto;
 import com.okta.springbootspa.model.User;
+import com.okta.springbootspa.model.UserOrder;
 import com.okta.springbootspa.model.UserStock;
 import com.okta.springbootspa.repository.UserRepository;
 import com.okta.springbootspa.repository.UserStockRepository;
@@ -11,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @CrossOrigin
 @RestController
@@ -21,8 +25,6 @@ public class UserStockController {
     private UserStockRepository userStockRepository;
     @Autowired
     private UserRepository userRepository;
-
-
 
     @PostMapping("/")
     public ResponseEntity<UserStock> saveStockB(@RequestBody UserStockDto uStock) {
@@ -36,4 +38,11 @@ public class UserStockController {
         StockDto stockDto1 = this.userStockService.teste1(id, token);
         return ResponseEntity.status(HttpStatus.CREATED).body(stockDto1);
     }
+
+    @GetMapping("/wallet/{id_user}")
+    public List <UserStock> list(@PathVariable ("id_user")Long user){
+        return userStockRepository.FindUser(user);
+    }
+
+
 }

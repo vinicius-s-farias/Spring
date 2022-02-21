@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 
 //import org.springframework.web.bind.annotation.controller;
 
+@CrossOrigin
+@RequestMapping("/stocks")
 @RestController
 public class StockController {
 
@@ -34,5 +36,21 @@ public class StockController {
         }
         return new ResponseEntity<>(stockRepository.save(stock), HttpStatus.CREATED);
     }
+
+    @GetMapping("")
+    public List<Stock> listar() {
+        return stockRepository.FindStock();
+    }
+
+    @GetMapping("/{stock_name}")
+    public List <Stock> list(@PathVariable ("stock_name")String stock_name){
+        return stockRepository.FindStockName(stock_name);
+    }
+
+    @GetMapping("/todos")
+    public List<Stock> acha() {
+        return stockRepository.findAll();
+    }
+
 }
 

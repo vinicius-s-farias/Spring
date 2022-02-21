@@ -1,21 +1,4 @@
 <template>
-  <!-- <div id="home">
-    <h1>Okta Single-Page App Demo</h1>
-    <div v-if="!this.$root.authenticated">
-      <p>
-        How much caffeine has your developer had today?
-        <router-link role="button" to="/login">Log in to find out!</router-link>
-      </p>
-    </div>
-
-    <div v-if="this.$root.authenticated">
-      <p>Welcome, {{ claims.name }}!</p>
-      <p>
-        {{ this.caffeineLevel }}
-      </p>
-    </div>
-  </div> -->
-
   <!-- COMEÇO Do STOCK -->
 
   <div class="py-40 flex w-full md:w-auto">
@@ -29,6 +12,7 @@
         <button
           type="submit"
           class="py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-black hover:bg-gray-500 focus:outline-none"
+          @click="setup"
         >
           ATUALIZAR
         </button>
@@ -76,167 +60,31 @@
           </tr>
         </thead>
         <tbody class="bg-gray-100 divide-y divide-gray-200">
-          <tr v-for="person in people" :key="person.email">
+          <tr v-for="stock in stocks" :key="stock">
             <td class="px-6 py-0 whitespace-nowrap">
               <div class="flex items-center">
                 <div class="flex-shrink-0 h-10 w-10"></div>
                 <div class="ml-4">
                   <div class="text-sm font-medium text-gray-900">
-                    {{ person.name }}
+                    {{ stock.stock_name }}
                   </div>
                 </div>
               </div>
             </td>
             <td class="px-20 py-0 whitespace-nowrap">
-              <div class="text-sm text-gray-900">{{ person.title }}</div>
+              <div class="text-sm text-gray-900">{{ stock.stock_symbol }}</div>
             </td>
             <td class="px-20 py-0 whitespace-nowrap">
-              <span
-                class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800"
-              >
-                Active
-              </span>
+              {{ stock.ask_min }}
             </td>
             <td class="px-20 py-0 whitespace-nowrap text-sm text-gray-500">
-              {{ person.role }}
+              {{ stock.ask_max }}
             </td>
             <td class="px-20 py-0 whitespace-nowrap text-sm text-gray-500">
-              {{ person.role }}
+              {{ stock.bid_min }}
             </td>
             <td class="px-20 py-0 whitespace-nowrap text-sm text-gray-500">
-              {{ person.role }}
-            </td>
-          </tr>
-        </tbody>
-        <tbody class="bg-gray-100 divide-y divide-gray-200">
-          <tr v-for="person in people" :key="person.email">
-            <td class="px-6 py-0 whitespace-nowrap">
-              <div class="flex items-center">
-                <div class="flex-shrink-0 h-10 w-10"></div>
-                <div class="ml-4">
-                  <div class="text-sm font-medium text-gray-900">
-                    {{ person.name }}
-                  </div>
-                </div>
-              </div>
-            </td>
-            <td class="px-20 py-0 whitespace-nowrap">
-              <div class="text-sm text-gray-900">{{ person.title }}</div>
-            </td>
-            <td class="px-20 py-0 whitespace-nowrap">
-              <span
-                class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800"
-              >
-                Active
-              </span>
-            </td>
-            <td class="px-20 py-0 whitespace-nowrap text-sm text-gray-500">
-              {{ person.role }}
-            </td>
-            <td class="px-20 py-0 whitespace-nowrap text-sm text-gray-500">
-              {{ person.role }}
-            </td>
-            <td class="px-20 py-0 whitespace-nowrap text-sm text-gray-500">
-              {{ person.role }}
-            </td>
-          </tr>
-        </tbody>
-        <tbody class="bg-gray-100 divide-y divide-gray-200">
-          <tr v-for="person in people" :key="person.email">
-            <td class="px-6 py- whitespace-nowrap">
-              <div class="flex items-center">
-                <div class="flex-shrink-0 h-10 w-10"></div>
-                <div class="ml-4">
-                  <div class="text-sm font-medium text-gray-900">
-                    {{ person.name }}
-                  </div>
-                </div>
-              </div>
-            </td>
-            <td class="px-20 py-0 whitespace-nowrap">
-              <div class="text-sm text-gray-900">{{ person.title }}</div>
-            </td>
-            <td class="px-20 py-0 whitespace-nowrap">
-              <span
-                class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800"
-              >
-                Active
-              </span>
-            </td>
-            <td class="px-20 py-0 whitespace-nowrap text-sm text-gray-500">
-              {{ person.role }}
-            </td>
-            <td class="px-20 py-0 whitespace-nowrap text-sm text-gray-500">
-              {{ person.role }}
-            </td>
-            <td class="px-20 py-0 whitespace-nowrap text-sm text-gray-500">
-              {{ person.role }}
-            </td>
-          </tr>
-        </tbody>
-        <tbody class="bg-gray-100 divide-y divide-gray-200">
-          <tr v-for="person in people" :key="person.email">
-            <td class="px-6 py-0 whitespace-nowrap">
-              <div class="flex items-center">
-                <div class="flex-shrink-0 h-10 w-10"></div>
-                <div class="ml-4">
-                  <div class="text-sm font-medium text-gray-900">
-                    {{ person.name }}
-                  </div>
-                </div>
-              </div>
-            </td>
-            <td class="px-20 py-0 whitespace-nowrap">
-              <div class="text-sm text-gray-900">{{ person.title }}</div>
-            </td>
-            <td class="px-20 py-0 whitespace-nowrap">
-              <span
-                class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800"
-              >
-                Active
-              </span>
-            </td>
-            <td class="px-20 py-0 whitespace-nowrap text-sm text-gray-500">
-              {{ person.role }}
-            </td>
-            <td class="px-20 py-0 whitespace-nowrap text-sm text-gray-500">
-              {{ person.role }}
-            </td>
-            <td class="px-20 py-0 whitespace-nowrap text-sm text-gray-500">
-              {{ person.role }}
-            </td>
-          </tr>
-        </tbody>
-        <tbody class="bg-gray-100 divide-y divide-gray-200">
-          <tr v-for="person in people" :key="person.email">
-            <td class="px-6 py-0 whitespace-nowrap">
-              <div class="flex items-center">
-                <div class="flex-shrink-0 h-10 w-10"></div>
-                <div class="ml-4">
-                  <div class="text-sm font-medium text-gray-900">
-                    {{ person.name }}
-                  </div>
-                </div>
-              </div>
-            </td>
-            <td class="px-20 py-0 whitespace-nowrap">
-              <div class="text-sm text-gray-900">{{ person.title }}</div>
-            </td>
-            <td class="px-20 py-0 whitespace-nowrap">
-              <span
-                class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800"
-              >
-                Active
-              </span>
-            </td>
-            <td class="px-20 py-0 whitespace-nowrap text-sm text-gray-500">
-              {{ person.role }}
-            </td>
-            <td class="px-20 py-0 whitespace-nowrap text-sm text-gray-500">
-              {{ person.role }}
-            </td>
-            <td class="px-20 py-0 whitespace-nowrap text-sm text-gray-500">
-              {{ person.role }}
+              {{ stock.bid_max }}
             </td>
           </tr>
         </tbody>
@@ -247,7 +95,7 @@
   <!-- COMEÇO DA ORDEM -->
 
   <div class="flex justify-between">
-    <div class="bg-gray-300 rounded-lg shadow-2x1 w-7/12 -mt-36">
+    <div class="bg-gray-100 rounded-lg shadow-2x1 w-7/12 -mt-36">
       <header
         class="flex justify-between bg-gray-800 rounded-t-lg py-2 px-8 text-xl font-extrabold text-white"
       >
@@ -255,16 +103,17 @@
         <button
           type="submit"
           class="py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-black hover:bg-gray-500 focus:outline-none"
+          @click="setup2"
         >
           ATUALIZAR
         </button>
       </header>
-      <table class="divide-gray-200">
+      <table class="divide-gray-200 w-full">
         <thead class="bg-gray-500">
           <tr>
             <th
               scope="col"
-              class="px-20 py-3 text-left text-xs font-medium text-gray-50 uppercase tracking-wider"
+              class="px-16 py-3 text-left text-xs font-medium text-gray-50 uppercase tracking-wider"
             >
               Ação
             </th>
@@ -276,102 +125,47 @@
             </th>
             <th
               scope="col"
-              class="px-16 py-3 text-left text-xs font-medium text-gray-50 uppercase tracking-wider"
+              class="px-14 py-3 text-left text-xs font-medium text-gray-50 uppercase tracking-wider"
             >
               Tipo
             </th>
             <th
               scope="col"
-              class="px-20 py-3 text-left text-xs font-medium text-gray-50 uppercase tracking-wider"
+              class="px-16 py-3 text-left text-xs font-medium text-gray-50 uppercase tracking-wider"
             >
               Preço
             </th>
             <th
               scope="col"
-              class="px-20 py-3 text-left text-xs font-medium text-gray-50 uppercase tracking-wider"
+              class="px-16 py-3 text-left text-xs font-medium text-gray-50 uppercase tracking-wider"
             >
               Volume
             </th>
           </tr>
         </thead>
-        <tbody class="bg-gray-100 divide-y divide-gray-200">
-          <tr v-for="person in people" :key="person.email">
-            <td class="px-8 py-4 whitespace-nowrap">
+        <tbody class="bg-gray-200 divide-y divide-gray-200">
+          <tr v-for="orders in order" :key="orders">
+            <td class="py-4 whitespace-nowrap">
               <div class="flex items-center">
                 <div class="flex-shrink-0 h-10 w-10"></div>
                 <div class="ml-4">
                   <div class="text-sm font-medium text-gray-900">
-                    {{ person.name }}
+                    {{ orders.stock_name }}
                   </div>
                 </div>
               </div>
             </td>
             <td class="px-16 py-4 whitespace-nowrap">
-              <div class="text-sm text-gray-900">{{ person.title }}</div>
+              <div class="text-sm text-gray-900">{{ orders.stock_symbol }}</div>
             </td>
-            <td class="px-16 py-4 whitespace-nowrap">Active</td>
-            <td class="px-16 py-4 whitespace-nowrap">Active</td>
-            <td class="px-20 py-4 whitespace-nowrap">Active</td>
-          </tr>
-        </tbody>
-        <tbody class="bg-gray-100 divide-y divide-gray-200">
-          <tr v-for="person in people" :key="person.email">
-            <td class="px-8 py-4 whitespace-nowrap">
-              <div class="flex items-center">
-                <div class="flex-shrink-0 h-10 w-10"></div>
-                <div class="ml-4">
-                  <div class="text-sm font-medium text-gray-900">
-                    {{ person.name }}
-                  </div>
-                </div>
-              </div>
+            <td class="px-16 py-4 whitespace-nowrap" v-if="orders.type == 1">
+              Venda
             </td>
+            <td class="px-16 py-4 whitespace-nowrap" v-else>Compra</td>
+            <td class="px-16 p y-4 whitespace-nowrap">{{ orders.price }}</td>
             <td class="px-16 py-4 whitespace-nowrap">
-              <div class="text-sm text-gray-900">{{ person.title }}</div>
+              {{ orders.remaining_value }}
             </td>
-            <td class="px-16 py-4 whitespace-nowrap">Active</td>
-            <td class="px-16 py-4 whitespace-nowrap">Active</td>
-            <td class="px-20 py-4 whitespace-nowrap">Active</td>
-          </tr>
-        </tbody>
-        <tbody class="bg-gray-100 divide-y divide-gray-200">
-          <tr v-for="person in people" :key="person.email">
-            <td class="px-8 py-4 whitespace-nowrap">
-              <div class="flex items-center">
-                <div class="flex-shrink-0 h-10 w-10"></div>
-                <div class="ml-4">
-                  <div class="text-sm font-medium text-gray-900">
-                    {{ person.name }}
-                  </div>
-                </div>
-              </div>
-            </td>
-            <td class="px-16 py-4 whitespace-nowrap">
-              <div class="text-sm text-gray-900">{{ person.title }}</div>
-            </td>
-            <td class="px-16 py-4 whitespace-nowrap">Active</td>
-            <td class="px-16 py-4 whitespace-nowrap">Active</td>
-            <td class="px-20 py-4 whitespace-nowrap">Active</td>
-          </tr>
-        </tbody>
-        <tbody class="bg-gray-100 divide-y divide-gray-200">
-          <tr v-for="person in people" :key="person.email">
-            <td class="px-8 py-4 whitespace-nowrap">
-              <div class="flex items-center">
-                <div class="flex-shrink-0 h-10 w-10"></div>
-                <div class="ml-4">
-                  <div class="text-sm font-medium text-gray-900">
-                    {{ person.name }}
-                  </div>
-                </div>
-              </div>
-            </td>
-            <td class="px-16 py-4 whitespace-nowrap">
-              <div class="text-sm text-gray-900">{{ person.title }}</div>
-            </td>
-            <td class="px-16 py-4 whitespace-nowrap">Active</td>
-            <td class="px-16 py-4 whitespace-nowrap">Active</td>
-            <td class="px-20 py-4 whitespace-nowrap">Active</td>
           </tr>
         </tbody>
 
@@ -383,24 +177,25 @@
           CRIAR ORDEM
         </button>
       </table>
-      <div class="p-8"></div>
+      <div class="p-0"></div>
     </div>
 
     <!-- COMEÇO DA CARTEIRA -->
-    <div class="bg-gray-300 rounded-lg shadow-2x1 -mt-36 table-auto">
+    <div class="bg-gray-300 rounded-lg shadow-2x1 -mt-36 w-4/12">
       <!-- header -->
       <header
         class="flex justify-between bg-gray-800 rounded-t-lg py-2 px-8 text-xl font-extrabold text-white"
       >
         CARTEIRA
         <button
+          @click="Carteira()"
           type="submit"
           class="py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-black hover:bg-gray-500 focus:outline-none"
         >
           ATUALIZAR
         </button>
       </header>
-      <table class="divide-gray-200">
+      <table class="divide-gray-200 w-full">
         <thead class="bg-gray-500">
           <tr>
             <th
@@ -424,27 +219,23 @@
           </tr>
         </thead>
         <tbody class="bg-gray-100 divide-y divide-gray-200">
-          <tr v-for="person in people" :key="person.email">
+          <tr v-for="wallets in wallet" :key="wallets">
             <td class="px-6 py-4 whitespace-nowrap">
               <div class="flex items-center">
                 <div class="flex-shrink-0 h-10 w-10"></div>
                 <div class="ml-4">
                   <div class="text-sm font-medium text-gray-900">
-                    {{ person.name }}
+                    {{ wallets.stock_name }}
                   </div>
                 </div>
               </div>
             </td>
             <td class="px-20 py-4 whitespace-nowrap">
-              <div class="text-sm text-gray-900">{{ person.title }}</div>
+              <div class="text-sm text-gray-900">
+                {{ wallets.stock_symbol }}
+              </div>
             </td>
-            <td class="px-20 py-4 whitespace-nowrap">
-              <span
-                class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full"
-              >
-                Active
-              </span>
-            </td>
+            <td class="px-20 py-4 whitespace-nowrap">{{ wallets.volume }}</td>
           </tr>
         </tbody>
       </table>
@@ -470,21 +261,21 @@
             <h5 class="text-3xl font-semibold">CREATE ORDEM</h5>
           </div>
           <!--body-->
-          <form class="w-full max-w-lg">
-            <div class="w-full md:min-w-full mb-6 md:mb-0">
+          <form class="w-full max-w-lg p-3">
+            <div class="w-full md:min-w-full mb-6 md:mb-0 pb-3">
               <div class="col-span-6">
                 <label
-                  for="country"
                   class="justify-center block text-sm font-medium text-gray-700"
                   >Ação
                 </label>
                 <select
-                  id="country"
-                  name="country"
-                  autocomplete="country-name"
+                  @click="selecStock"
+                  v-model="name"
                   class="mt-1 mb- block w-full py-2 px-3 border bg-gray-200 border-gray-200 text-gray-700 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 >
-                  <option>---- Selecione a ação ----</option>
+                  <option v-for="stocks in seila" :key="stocks">
+                    {{ stocks.stock_name }}
+                  </option>
                 </select>
               </div>
             </div>
@@ -499,25 +290,15 @@
                 </label>
                 <div class="relative">
                   <select
+                    v-model="type"
                     class="block appearance-none bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                    id="grid-state"
                   >
-                    <option>Venda</option>
-                    <option>Compra</option>
+                    <option value="1">Venda</option>
+                    <option value="0">Compra</option>
                   </select>
                   <div
                     class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
-                  >
-                    <svg
-                      class="fill-current h-4 w-4"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                    >
-                      <path
-                        d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"
-                      />
-                    </svg>
-                  </div>
+                  ></div>
                 </div>
               </div>
 
@@ -529,10 +310,9 @@
                   Quantidade
                 </label>
                 <input
+                  v-model="volume"
                   class="appearance-none block w-10/12 bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                  id="grid-city"
                   type="text"
-                  placeholder="Albuquerque"
                 />
               </div>
               <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
@@ -543,10 +323,9 @@
                   Preço
                 </label>
                 <input
+                  v-model="price"
                   class="appearance-none block w-10/12 bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                  id="grid-zip"
                   type="text"
-                  placeholder="90210"
                 />
               </div>
             </div>
@@ -557,6 +336,7 @@
           >
             <button
               class="py-3 px-8 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-300 hover:bg-gray-200 focus:outline-none"
+              @click="CreteOrdem"
               v-on:click="toggleModal()"
             >
               Salvar Ordem
@@ -578,29 +358,37 @@
 
 <script>
 import axios from "axios";
-const people = [
-  {
-    name: "Jane Cooper",
-    title: "Regional Paradigm Technician",
-    department: "Optimization",
-    role: "Admin",
-    email: "jane.cooper@example.com",
-  },
-  // More people...
-];
+
 export default {
   name: "home",
   nome: "large-modal",
   data: function () {
     return {
+      id_user: 0,
+      users: [],
+      seila: [],
+      seila1: [],
+      price: "",
+      volume: "",
+      type: "",
+      name: "",
+      username: "",
       showModal: false,
-      people,
       claims: "",
       caffeineLevel: "",
+      stocks: [],
+      order: [],
+      wallet: [],
     };
   },
-  created() {
+
+  mounted() {
     this.setup();
+    this.setup2();
+    this.Carteira();
+  },
+  created() {
+    this.User();
   },
   methods: {
     async setup() {
@@ -609,16 +397,128 @@ export default {
         let accessToken = this.$auth.getAccessToken();
         console.log(`Authorization: Bearer ${accessToken}`);
         try {
-          let response = await axios.get(
-            "http://localhost:8081/howcaffeinatedami",
-            { headers: { Authorization: "Bearer " + accessToken } }
-          );
-          this.caffeineLevel = response.data;
+          let response = await axios.get("http://localhost:8082/stocks", {
+            headers: { Authorization: "Bearer " + accessToken },
+          });
+          this.stocks = response.data;
         } catch (error) {
-          this.caffeineLevel = `${error}`;
+          this.stocks = `${error}`;
+        }
+        try {
+          let response = await axios.get("http://localhost:8082/stocks/todos", {
+            headers: { Authorization: "Bearer " + accessToken },
+          });
+          this.seila = response.data;
+        } catch (error) {
+          this.seila = `${error}`;
         }
       }
     },
+    async setup2() {
+      if (this.$root.authenticated) {
+        this.claims = await this.$auth.getUser();
+        let accessToken = this.$auth.getAccessToken();
+        console.log(`Authorization: Bearer ${accessToken}`);
+        try {
+          let response = await axios.get("http://localhost:8081/orders", {
+            headers: { Authorization: "Bearer " + accessToken },
+          });
+          this.order = response.data;
+        } catch (error) {
+          this.order = `${error}`;
+        }
+      }
+    },
+
+    async Carteira() {
+      if (this.$root.authenticated) {
+        this.claims = await this.$auth.getUser();
+        let accessToken = this.$auth.getAccessToken();
+        console.log(`Authorization: Bearer ${accessToken}`);
+        try {
+          let response = await axios.get(
+            `http://localhost:8081/wallet/${this.id_user}`,
+            {
+              headers: { Authorization: "Bearer " + accessToken },
+            }
+          );
+          this.wallet = response.data;
+        } catch (error) {
+          this.wallet = `${error}`;
+        }
+      }
+    },
+
+    async selecStock() {
+      if (this.$root.authenticated) {
+        this.claims = await this.$auth.getUser();
+        let accessToken = this.$auth.getAccessToken();
+        try {
+          let response = await axios.get(
+            `http://localhost:8082/stocks/${this.name}`,
+
+            {
+              headers: { Authorization: "Bearer " + accessToken },
+            }
+          );
+          this.seila1 = response.data;
+          console.log("olha pra baixo");
+          console.log(this.seila1);
+        } catch (error) {
+          this.seila1 = `${error}`;
+        }
+      }
+    },
+    async CreteOrdem() {
+      if (this.$root.authenticated) {
+        this.claims = await this.$auth.getUser();
+        let accessToken = this.$auth.getAccessToken();
+        try {
+          await axios.post(
+            "http://localhost:8081/order",
+            {
+              id_user: this.id_user,
+              id_stock: this.seila1[0].id,
+              stock_name: this.name,
+              stock_symbol: this.seila1[0].stock_symbol,
+              price: this.price,
+              status: 1,
+              type: this.type,
+              volume: this.volume,
+              remaining_value: this.volume,
+            },
+            {
+              headers: { Authorization: "Bearer " + accessToken },
+            }
+          );
+          console.log("sucesso");
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    },
+
+    async User() {
+      this.claims = await Object.entries(await this.$auth.getUser()).map(
+        (entry) => ({ claim: entry[0], value: entry[1] })
+      );
+      let accessToken = this.$auth.getAccessToken();
+      try {
+        let response = await axios.get(
+          `http://localhost:8081/users/${this.claims[1].value}`,
+
+          {
+            headers: { Authorization: "Bearer " + accessToken },
+          }
+        );
+        console.log(response.data);
+        this.id_user = response.data;
+        console.log("olha pra baixo");
+      } catch (error) {
+        this.id_user = `${error}`;
+      }
+    },
+
     toggleModal: function () {
       this.showModal = !this.showModal;
     },

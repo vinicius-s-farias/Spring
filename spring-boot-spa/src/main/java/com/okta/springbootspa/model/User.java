@@ -4,11 +4,12 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.stereotype.Service;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
-
+@Service
 @Setter
 @Getter
 @Entity
@@ -58,4 +59,12 @@ public class User implements Serializable {
         return true;
     }
 
+    public User(String username, String password, double dollar_balance) {
+        this.username = username;
+        this.password = password;
+        this.dollar_balance = dollar_balance;
+    }
+
+    public User() {
+    }
 }

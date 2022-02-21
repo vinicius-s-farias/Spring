@@ -63,7 +63,7 @@ public interface CompraRepository extends JpaRepository<UserOrder, Long > {
     int RemainingNE(UserOrder id_order);
 
     @Modifying
-    @Query(value = " INSERT INTO users_stocks_balances (id_user, id_stock, stock_symbol, stock_name, volume) select ?1, ?2, ?3, ?4, 0 where not exists (select 1 from users_stocks_balances where id_stock = ?2) ", nativeQuery = true)
+    @Query(value = " INSERT INTO users_stocks_balances (id_user, id_stock, stock_symbol, stock_name, volume) select ?1, ?2, ?3, ?4, 0 where not exists (select 1 from users_stocks_balances where id_stock = ?2 and id_user = ?1) ", nativeQuery = true)
     int insert(User user, Long id_stock, String stock_symbol, String stock_name);
 
 }

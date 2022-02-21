@@ -7,7 +7,14 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface StockRepository extends JpaRepository<Stock, Long> {
+    @Query(value =  " select * from stocks s where ask_min <> 0  order by updated_on desc fetch first 5 rows only" , nativeQuery = true)
+    List<Stock> FindStock();
+
+    @Query(value =  " select * from stocks s where stock_name = ?1  " , nativeQuery = true)
+    List<Stock> FindStockName(String stock_name);
 
 }

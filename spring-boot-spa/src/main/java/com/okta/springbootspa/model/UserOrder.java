@@ -15,7 +15,6 @@ import java.util.Objects;
 @Entity
 @Table(name = "users_orders")
 public class UserOrder implements Serializable {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id_order;

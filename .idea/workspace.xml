@@ -4,7 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="67bbdd37-2056-46e3-941d-2bbb15dae472" name="Changes" comment="" />
+    <list default="true" id="67bbdd37-2056-46e3-941d-2bbb15dae472" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/src/main/java/com/Rest/API/controller/StockController.java" beforeDir="false" afterPath="$PROJECT_DIR$/API/src/main/java/com/Rest/API/controller/StockController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/src/main/java/com/Rest/API/repository/StockRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/API/src/main/java/com/Rest/API/repository/StockRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/okta-app/src/components/Home.vue" beforeDir="false" afterPath="$PROJECT_DIR$/okta-app/src/components/Home.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/okta-app/src/components/Profile.vue" beforeDir="false" afterPath="$PROJECT_DIR$/okta-app/src/components/Profile.vue" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -22,13 +28,13 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/okta-app/src/okta/index.js" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/spring-boot-spa/src/main/java/com/okta/springbootspa/service/UserStockService.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/spring-boot-spa/src/main/java/com/okta/springbootspa/restController/UserStockController.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/spring-boot-spa/pom.xml" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/spring-boot-spa/src/main/java/com/okta/springbootspa/service/UserStockService.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/okta-app/src/okta/index.js" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/src/main/resources/db/migration/1.0/V1_1__create_orders_db.sql" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/spring-boot-spa/src/main/java/com/okta/springbootspa/SpringBootSpaApplication.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/src/main/resources/application.properties" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/API/src/main/resources/db/migration/1.0/V1_1__create_orders_db.sql" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/spring-boot-spa/pom.xml" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="JpbToolWindowState">
     <option name="myId2FirstActivated">
@@ -67,7 +73,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/spring-boot-spa" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
@@ -108,6 +114,8 @@
       <workItem from="1642171066420" duration="74000" />
       <workItem from="1642420434041" duration="16925000" />
       <workItem from="1642532812725" duration="32000" />
+      <workItem from="1644956575263" duration="69000" />
+      <workItem from="1645215163549" duration="662000" />
     </task>
     <servers />
   </component>

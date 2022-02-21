@@ -6,22 +6,23 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Objects;
 
 @Setter
 @Getter
 @Entity
 @Table(name = "users_stocks_balances")
 public class UserStock implements Serializable {
-
-    @EmbeddedId
-    private Chave id;
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @ManyToOne
+    @JoinColumn(name = "id_user")
+    private User id_user;
+    private Long id_stock;
     private String stock_symbol;
     private String stock_name;
     private Long volume;
@@ -32,42 +33,29 @@ public class UserStock implements Serializable {
     @Column(name = "updated_on")
     private Timestamp updated_on;
 
-    public UserStock(Chave id, String stock_symbol, String stock_name, Long volume) {
+    public UserStock(User id_user,Long id, Long id_stock, String stock_symbol, String stock_name, Long volume) {
+        this.id_user = id_user;
         this.id = id;
+        this.id_stock = id_stock;
         this.stock_symbol = stock_symbol;
         this.stock_name = stock_name;
         this.volume = volume;
     }
+
     public UserStock() {
 
     }
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
-        return result();
-    }
 
-    private int result() {
-        return 0;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserStock userStock = (UserStock) o;
+        return id == userStock.id;
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        UserStock other = (UserStock) obj;
-        if (id== null) {
-            if (other.id != null)
-                return false;
-        } else if (!id.equals(other.id))
-            return false;
-        return true;
+    public int hashCode() {
+        return Objects.hash(id);
     }
-
 }

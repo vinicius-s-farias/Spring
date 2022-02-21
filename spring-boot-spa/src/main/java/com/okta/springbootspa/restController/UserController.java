@@ -1,11 +1,15 @@
 package com.okta.springbootspa.restController;
 
+import com.okta.springbootspa.dto.UserDto;
 import com.okta.springbootspa.model.User;
+import com.okta.springbootspa.model.UserOrder;
+import com.okta.springbootspa.model.UserStock;
 import com.okta.springbootspa.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin
 @RestController
@@ -13,11 +17,23 @@ public class UserController {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private User user;
 
     @GetMapping("/users")
     public List<User> listar() {
         return userRepository.findAll();
     }
+    @GetMapping("/users/{username}")
+    public Long list(@PathVariable ("username")String user)  {
+        Optional<User> us = userRepository.FindUser(user) ;
+            if(us.isEmpty()){
+            return userRepository.save(new User(user, "qualquercoisa", 10000)).getId();
+            }else {
+                return us.get().getId();
+            }
+    }
+
     @PostMapping("/users")
     public User adicionar(@RequestBody User user) {
         return userRepository.save(user);
@@ -31,11 +47,6 @@ public class UserController {
         return userRepository.save(user);
     }
 
-
-//    @GetMapping("/{username}")
-//    public List <User> list(@PathVariable ("username")String username){
-//        return userRepository.FindUser(username);
-//    }
 
 
 }

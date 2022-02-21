@@ -1,7 +1,9 @@
 package com.okta.springbootspa.service;
 
 import com.nimbusds.jose.shaded.json.JSONObject;
+import com.okta.springbootspa.configuration.TreinamentoDefaultException;
 import com.okta.springbootspa.dto.StockDto;
+import com.okta.springbootspa.dto.UserStockDto;
 import com.okta.springbootspa.model.UserStock;
 import com.okta.springbootspa.repository.UserStockRepository;
 import jdk.swing.interop.SwingInterOpUtils;
@@ -61,5 +63,12 @@ public class UserStockService {
         StockDto stock = monoStock.block();
         return stock;
     }
+
+    public UserStockDto getWallet(Long id) throws TreinamentoDefaultException {
+        UserStock userStock = userStockRepository.findById(id)
+                .orElseThrow(() -> new TreinamentoDefaultException("CARTEIR_NOT_FOUND"));
+        return new UserStockDto(userStock);
+    }
+
 
 }
