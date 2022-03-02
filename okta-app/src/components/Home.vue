@@ -1,7 +1,7 @@
 <template>
   <!-- COMEÇO Do STOCK -->
 
-  <div class="py-40 flex w-full md:w-auto">
+  <div class="py-40 flex w-full md:w-auto p-2">
     <div class="bg-gray-300 rounded-lg shadow-2x1 w-full -mt-40">
       <!-- header -->
 
@@ -94,18 +94,18 @@
 
   <!-- COMEÇO DA ORDEM -->
 
-  <div class="flex justify-between">
-    <div class="bg-gray-100 rounded-lg shadow-2x1 w-7/12 -mt-36">
+  <div class="p-2">
+    <div class="bg-gray-100 rounded-lg shadow-2x1 w-ful -mt-36">
       <header
         class="flex justify-between bg-gray-800 rounded-t-lg py-2 px-8 text-xl font-extrabold text-white"
       >
         ORDEM
         <button
-          type="submit"
-          class="py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-black hover:bg-gray-500 focus:outline-none"
-          @click="setup2"
+          class="py-3 px-8 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-black hover:bg-gray-500 focus:outline-none flex-initial"
+          type="button"
+          v-on:click="toggleModal()"
         >
-          ATUALIZAR
+          CRIAR ORDEM
         </button>
       </header>
       <table class="divide-gray-200 w-full">
@@ -168,79 +168,8 @@
             </td>
           </tr>
         </tbody>
-
-        <button
-          class="py-3 px-8 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-black hover:bg-gray-500 focus:outline-none"
-          type="button"
-          v-on:click="toggleModal()"
-        >
-          CRIAR ORDEM
-        </button>
       </table>
       <div class="p-0"></div>
-    </div>
-
-    <!-- COMEÇO DA CARTEIRA -->
-    <div class="bg-gray-300 rounded-lg shadow-2x1 -mt-36 w-4/12">
-      <!-- header -->
-      <header
-        class="flex justify-between bg-gray-800 rounded-t-lg py-2 px-8 text-xl font-extrabold text-white"
-      >
-        CARTEIRA
-        <button
-          @click="Carteira()"
-          type="submit"
-          class="py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-black hover:bg-gray-500 focus:outline-none"
-        >
-          ATUALIZAR
-        </button>
-      </header>
-      <table class="divide-gray-200 w-full">
-        <thead class="bg-gray-500">
-          <tr>
-            <th
-              scope="col"
-              class="px-20 py-3 text-left text-xs font-medium text-gray-50 uppercase tracking-wider"
-            >
-              Ação
-            </th>
-            <th
-              scope="col"
-              class="px-20 py-3 text-left text-xs font-medium text-gray-50 uppercase tracking-wider"
-            >
-              Simbolo
-            </th>
-            <th
-              scope="col"
-              class="px-20 py-3 text-left text-xs font-medium text-gray-50 uppercase tracking-wider"
-            >
-              Volume
-            </th>
-          </tr>
-        </thead>
-        <tbody class="bg-gray-100 divide-y divide-gray-200">
-          <tr v-for="wallets in wallet" :key="wallets">
-            <td class="px-6 py-4 whitespace-nowrap">
-              <div class="flex items-center">
-                <div class="flex-shrink-0 h-10 w-10"></div>
-                <div class="ml-4">
-                  <div class="text-sm font-medium text-gray-900">
-                    {{ wallets.stock_name }}
-                  </div>
-                </div>
-              </div>
-            </td>
-            <td class="px-20 py-4 whitespace-nowrap">
-              <div class="text-sm text-gray-900">
-                {{ wallets.stock_symbol }}
-              </div>
-            </td>
-            <td class="px-20 py-4 whitespace-nowrap">{{ wallets.volume }}</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <div class="p-32"></div>
     </div>
   </div>
   <!-- COMEÇO MODAL -->
@@ -358,6 +287,7 @@
 
 <script>
 import axios from "axios";
+import { fetchEventSource } from "@microsoft/fetch-event-source";
 
 export default {
   name: "home",
@@ -365,6 +295,7 @@ export default {
   data: function () {
     return {
       id_user: 0,
+      us: [],
       users: [],
       seila: [],
       seila1: [],
@@ -388,6 +319,7 @@ export default {
     this.Carteira();
   },
   created() {
+    this.Retorno();
     this.User();
   },
   methods: {
@@ -496,6 +428,7 @@ export default {
           console.log(error);
         }
       }
+      this.setup2();
     },
 
     async User() {
@@ -517,6 +450,51 @@ export default {
       } catch (error) {
         this.id_user = `${error}`;
       }
+    },
+
+    async User1() {
+      this.claims = await Object.entries(await this.$auth.getUser()).map(
+        (entry) => ({ claim: entry[0], value: entry[1] })
+      );
+      let accessToken = this.$auth.getAccessToken();
+      try {
+        let response = await axios.get(
+          `http://localhost:8081/teste/${this.claims[1].value}`,
+
+          {
+            headers: { Authorization: "Bearer " + accessToken },
+          }
+        );
+        console.log(response.data);
+        this.us = response.data;
+        console.log("olha pra baixo");
+      } catch (error) {
+        this.us = `${error}`;
+      }
+    },
+
+    async Retorno() {
+      let accessToken = this.$auth.getAccessToken();
+      console.log("to entrando");
+      const PauloTeste = (teste) => {
+        this.stocks = teste;
+      };
+      await fetchEventSource("http://localhost:8082/stocks/subscribe", {
+        headers: {
+          Authorization: "Bearer " + accessToken,
+        },
+        onmessage(ev) {
+          PauloTeste(JSON.parse(ev.data));
+          console.log(ev);
+          console.log(JSON.parse(ev.data));
+        },
+        onerror(err) {
+          if (err) {
+            console.log("Sou do erro", err);
+            throw err; // rethrow to stop the operation
+          }
+        },
+      });
     },
 
     toggleModal: function () {

@@ -1,4 +1,4 @@
-import OktaSignIn from '@okta/okta-signin-widget';
+import OktaSignIn from "@okta/okta-signin-widget";
 import { OktaAuth } from "@okta/okta-auth-js";
 
 const yourOktaUri = "https://dev-3416214.okta.com";
@@ -17,7 +17,7 @@ const oktaSignIn = new OktaSignIn({
 });
 
 const oktaAuth = new OktaAuth({
-  issuer:`${yourOktaUri}/oauth2/default`,
+  issuer: `${yourOktaUri}/oauth2/default`,
   clientId: clientId,
   redirectUri: window.location.origin + "/login/callback",
   scopes: ["openid", "profile", "email"],
