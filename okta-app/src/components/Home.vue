@@ -1,7 +1,7 @@
 <template>
   <!-- COMEÇO Do STOCK -->
 
-  <div class="py-40 flex w-full md:w-auto p-2">
+  <div class="pt-40 pb-3 flex w-full md:w-auto p-2">
     <div class="bg-gray-300 rounded-lg shadow-2x1 w-full -mt-40">
       <!-- header -->
 
@@ -75,16 +75,36 @@
               <div class="text-sm text-gray-900">{{ stock.stock_symbol }}</div>
             </td>
             <td class="px-20 py-0 whitespace-nowrap">
-              {{ stock.ask_min }}
+              {{
+                stock.ask_min.toLocaleString("pt-br", {
+                  style: "currency",
+                  currency: "BRL",
+                })
+              }}
             </td>
-            <td class="px-20 py-0 whitespace-nowrap text-sm text-gray-500">
-              {{ stock.ask_max }}
+            <td class="px-20 py-0 whitespace-nowrap text-sm text-gray-900">
+              {{
+                stock.ask_max.toLocaleString("pt-br", {
+                  style: "currency",
+                  currency: "BRL",
+                })
+              }}
             </td>
-            <td class="px-20 py-0 whitespace-nowrap text-sm text-gray-500">
-              {{ stock.bid_min }}
+            <td class="px-20 py-0 whitespace-nowrap text-sm text-gray-900">
+              {{
+                stock.bid_min.toLocaleString("pt-br", {
+                  style: "currency",
+                  currency: "BRL",
+                })
+              }}
             </td>
-            <td class="px-20 py-0 whitespace-nowrap text-sm text-gray-500">
-              {{ stock.bid_max }}
+            <td class="px-20 py-0 whitespace-nowrap text-sm text-gray-900">
+              {{
+                stock.bid_max.toLocaleString("pt-br", {
+                  style: "currency",
+                  currency: "BRL",
+                })
+              }}
             </td>
           </tr>
         </tbody>
@@ -94,56 +114,56 @@
 
   <!-- COMEÇO DA ORDEM -->
 
-  <div class="p-2">
-    <div class="bg-gray-100 rounded-lg shadow-2x1 w-ful -mt-36">
+  <div class="flex w-full md:w-auto p-2">
+    <div class="bg-gray-100 rounded-lg shadow-2x1 w-full">
       <header
         class="flex justify-between bg-gray-800 rounded-t-lg py-2 px-8 text-xl font-extrabold text-white"
       >
         ORDEM
         <button
-          class="py-3 px-8 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-black hover:bg-gray-500 focus:outline-none flex-initial"
+          class="py-2 px-8 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-black hover:bg-gray-500 focus:outline-none flex-initial"
           type="button"
           v-on:click="toggleModal()"
         >
           CRIAR ORDEM
         </button>
       </header>
-      <table class="divide-gray-200 w-full">
+      <table class="min-w-full divide-y divide-gray-200">
         <thead class="bg-gray-500">
           <tr>
             <th
               scope="col"
-              class="px-16 py-3 text-left text-xs font-medium text-gray-50 uppercase tracking-wider"
+              class="px-16 py-2 text-left text-xs font-medium text-gray-50 uppercase tracking-wider"
             >
               Ação
             </th>
             <th
               scope="col"
-              class="px-16 py-3 text-left text-xs font-medium text-gray-50 uppercase tracking-wider"
+              class="px-16 py-2 text-left text-xs font-medium text-gray-50 uppercase tracking-wider"
             >
               Simbolo
             </th>
             <th
               scope="col"
-              class="px-14 py-3 text-left text-xs font-medium text-gray-50 uppercase tracking-wider"
+              class="px-14 py-2 text-left text-xs font-medium text-gray-50 uppercase tracking-wider"
             >
               Tipo
             </th>
             <th
               scope="col"
-              class="px-16 py-3 text-left text-xs font-medium text-gray-50 uppercase tracking-wider"
+              class="px-16 py-2 text-left text-xs font-medium text-gray-50 uppercase tracking-wider"
             >
               Preço
             </th>
             <th
               scope="col"
-              class="px-16 py-3 text-left text-xs font-medium text-gray-50 uppercase tracking-wider"
+              class="px-16 py-2 text-left text-xs font-medium text-gray-50 uppercase tracking-wider"
             >
               Volume
             </th>
           </tr>
         </thead>
-        <tbody class="bg-gray-200 divide-y divide-gray-200">
+        <tbody class="bg-gray-100 divide-y divide-gray-200">
           <tr v-for="orders in order" :key="orders">
             <td class="py-4 whitespace-nowrap">
               <div class="flex items-center">
@@ -155,15 +175,22 @@
                 </div>
               </div>
             </td>
-            <td class="px-16 py-4 whitespace-nowrap">
+            <td class="px-16 py-1 whitespace-nowrap">
               <div class="text-sm text-gray-900">{{ orders.stock_symbol }}</div>
             </td>
-            <td class="px-16 py-4 whitespace-nowrap" v-if="orders.type == 1">
+            <td class="px-14 py-1 whitespace-nowrap" v-if="orders.type == 1">
               Venda
             </td>
-            <td class="px-16 py-4 whitespace-nowrap" v-else>Compra</td>
-            <td class="px-16 p y-4 whitespace-nowrap">{{ orders.price }}</td>
-            <td class="px-16 py-4 whitespace-nowrap">
+            <td class="px-14 py-1 whitespace-nowrap" v-else>Compra</td>
+            <td class="px-16 p y-1 whitespace-nowrap">
+              {{
+                orders.price.toLocaleString("pt-br", {
+                  style: "currency",
+                  currency: "BRL",
+                })
+              }}
+            </td>
+            <td class="px-16 py-1 whitespace-nowrap">
               {{ orders.remaining_value }}
             </td>
           </tr>
@@ -172,7 +199,8 @@
       <div class="p-0"></div>
     </div>
   </div>
-  <!-- COMEÇO MODAL -->
+
+  <!-- COMEÇO MODAL ORDEM -->
   <div class="w-1/12">
     <div
       v-if="showModal"
@@ -295,7 +323,7 @@ export default {
   data: function () {
     return {
       id_user: 0,
-      us: [],
+
       users: [],
       seila: [],
       seila1: [],
@@ -306,19 +334,16 @@ export default {
       username: "",
       showModal: false,
       claims: "",
-      caffeineLevel: "",
       stocks: [],
       order: [],
-      wallet: [],
+      dataSource: [],
+      visualRange: [],
     };
   },
 
-  mounted() {
+  created() {
     this.setup();
     this.setup2();
-    this.Carteira();
-  },
-  created() {
     this.Retorno();
     this.User();
   },
@@ -362,25 +387,6 @@ export default {
       }
     },
 
-    async Carteira() {
-      if (this.$root.authenticated) {
-        this.claims = await this.$auth.getUser();
-        let accessToken = this.$auth.getAccessToken();
-        console.log(`Authorization: Bearer ${accessToken}`);
-        try {
-          let response = await axios.get(
-            `http://localhost:8081/wallet/${this.id_user}`,
-            {
-              headers: { Authorization: "Bearer " + accessToken },
-            }
-          );
-          this.wallet = response.data;
-        } catch (error) {
-          this.wallet = `${error}`;
-        }
-      }
-    },
-
     async selecStock() {
       if (this.$root.authenticated) {
         this.claims = await this.$auth.getUser();
@@ -401,6 +407,7 @@ export default {
         }
       }
     },
+
     async CreteOrdem() {
       if (this.$root.authenticated) {
         this.claims = await this.$auth.getUser();
@@ -452,27 +459,6 @@ export default {
       }
     },
 
-    async User1() {
-      this.claims = await Object.entries(await this.$auth.getUser()).map(
-        (entry) => ({ claim: entry[0], value: entry[1] })
-      );
-      let accessToken = this.$auth.getAccessToken();
-      try {
-        let response = await axios.get(
-          `http://localhost:8081/teste/${this.claims[1].value}`,
-
-          {
-            headers: { Authorization: "Bearer " + accessToken },
-          }
-        );
-        console.log(response.data);
-        this.us = response.data;
-        console.log("olha pra baixo");
-      } catch (error) {
-        this.us = `${error}`;
-      }
-    },
-
     async Retorno() {
       let accessToken = this.$auth.getAccessToken();
       console.log("to entrando");
@@ -485,8 +471,6 @@ export default {
         },
         onmessage(ev) {
           PauloTeste(JSON.parse(ev.data));
-          console.log(ev);
-          console.log(JSON.parse(ev.data));
         },
         onerror(err) {
           if (err) {

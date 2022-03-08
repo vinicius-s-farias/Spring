@@ -1,119 +1,165 @@
-Ready for Tailwind CSS v3.0 Learn more → Tailwind UI Beautiful UI components by
-the creators of Tailwind CSS Documentation Pricing & FAQ Sign in Tables
-Application UI Lists With avatars and multi-line content
-
-<!-- This example requires Tailwind CSS v2.0+ -->
 <template>
-  <div class="flex flex-col">
-    <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-      <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-        <div
-          class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg"
+  <div id="chart-demo " class="bg-green-50 mx-4">
+    <DxChart
+      id="zoomedChart"
+      :data-source="dataSource"
+      title="Solin-Vest Stock Prices "
+    >
+      <DxSeries
+        type="candlestick"
+        open-value-field="open"
+        high-value-field="max"
+        low-value-field="min"
+        close-value-field="close"
+        argument-field="created_on"
+      >
+        <DxAggregation :enabled="true" />
+      </DxSeries>
+      <DxArgumentAxis
+        :visual-range="visualRange"
+        :value-margins-enabled="false"
+        argument-type="datetime"
+      >
+        <DxGrid :visible="true" />
+        <DxLabel :visible="false" />
+      </DxArgumentAxis>
+      <DxValueAxis value-type="numeric" />
+      <DxMargin :right="10" />
+      <DxLegend :visible="false" />
+      <DxTooltip :enabled="true" />
+    </DxChart>
+    <DxRangeSelector :data-source="dataSource" v-model:value="visualRange">
+      <DxSize :height="120" />
+      <DxRsChart>
+        <DxRsValueAxis value-type="numeric" />
+        <DxRsSeries
+          type="line"
+          value-field="open"
+          argument-field="created_on"
+          class="bg-gray-300"
         >
-          <table class="min-w-full divide-y divide-gray-200">
-            <thead class="bg-gray-50">
-              <tr>
-                <th
-                  scope="col"
-                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                >
-                  Name
-                </th>
-                <th
-                  scope="col"
-                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                >
-                  Title
-                </th>
-                <th
-                  scope="col"
-                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                >
-                  Status
-                </th>
-                <th
-                  scope="col"
-                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                >
-                  Role
-                </th>
-                <th scope="col" class="relative px-6 py-3">
-                  <span class="sr-only">Edit</span>
-                </th>
-              </tr>
-            </thead>
-            <tbody class="bg-white divide-y divide-gray-200">
-              <tr v-for="person in people" :key="person.email">
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <div class="flex items-center">
-                    <div class="flex-shrink-0 h-10 w-10">
-                      <img
-                        class="h-10 w-10 rounded-full"
-                        :src="person.image"
-                        alt=""
-                      />
-                    </div>
-                    <div class="ml-4">
-                      <div class="text-sm font-medium text-gray-900">
-                        {{ person.name }}
-                      </div>
-                      <div class="text-sm text-gray-500">
-                        {{ person.email }}
-                      </div>
-                    </div>
-                  </div>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <div class="text-sm text-gray-900">{{ person.title }}</div>
-                  <div class="text-sm text-gray-500">
-                    {{ person.department }}
-                  </div>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <span
-                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800"
-                  >
-                    Active
-                  </span>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {{ person.role }}
-                </td>
-                <td
-                  class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
-                >
-                  <a href="#" class="text-indigo-600 hover:text-indigo-900"
-                    >Edit</a
-                  >
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
+          <DxRsAggregation :enabled="true" />
+        </DxRsSeries>
+      </DxRsChart>
+      <DxScale
+        :placeholder-height="20"
+        minor-tick-interval="day"
+        tick-interval="month"
+        value-type="datetime"
+        aggregation-interval="week"
+      />
+      <DxBehavior :snap-to-ticks="false" call-value-changed="onMoving" />
+    </DxRangeSelector>
   </div>
 </template>
-
 <script>
-const people = [
-  {
-    name: "Jane Cooper",
-    title: "Regional Paradigm Technician",
-    department: "Optimization",
-    role: "Admin",
-    email: "jane.cooper@example.com",
-    image:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-  },
-  // More people...
-];
+import axios from "axios";
+import DxChart, {
+  DxSeries,
+  DxAggregation,
+  DxArgumentAxis,
+  DxGrid,
+  DxLabel,
+  DxValueAxis,
+  DxMargin,
+  DxLegend,
+  DxTooltip,
+} from "devextreme-vue/chart";
+
+import DxRangeSelector, {
+  DxSize,
+  DxScale,
+  DxChart as DxRsChart,
+  DxValueAxis as DxRsValueAxis,
+  DxSeries as DxRsSeries,
+  DxAggregation as DxRsAggregation,
+  DxBehavior,
+} from "devextreme-vue/range-selector";
 
 export default {
-  setup() {
+  components: {
+    DxChart,
+    DxSeries,
+    DxAggregation,
+    DxArgumentAxis,
+    DxGrid,
+    DxLabel,
+    DxValueAxis,
+    DxMargin,
+    DxLegend,
+    DxTooltip,
+    DxRangeSelector,
+    DxSize,
+    DxScale,
+    DxRsChart,
+    DxRsValueAxis,
+    DxRsSeries,
+    DxRsAggregation,
+    DxBehavior,
+  },
+  data() {
     return {
-      people,
+      seila1: [],
+      id_stock: "",
+      dataSource: [],
+      visualRange: [],
     };
+  },
+  // created() {
+  //   this.Grafico();
+  //   this.FindStock();
+  // },
+  methods: {
+    async FindStock() {
+      if (this.$root.authenticated) {
+        this.claims = await this.$auth.getUser();
+        let accessToken = this.$auth.getAccessToken();
+        try {
+          let response = await axios.get(
+            `http://localhost:8082/stocks/${this.name}`,
+
+            {
+              headers: { Authorization: "Bearer " + accessToken },
+            }
+          );
+          this.seila1 = response.data;
+          this.id_stock = this.seila1[0].id_Stock;
+          console.log("olha pra baixo");
+          console.log(this.seila1);
+        } catch (error) {
+          this.seila1 = `${error}`;
+        }
+      }
+    },
+    async Grafico() {
+      this.claims = await this.$auth.getUser();
+      let accessToken = this.$auth.getAccessToken();
+      console.log(`Authorization: Bearer ${accessToken}`);
+      try {
+        let response = await axios.get(`http://localhost:8082/grafico/1`, {
+          headers: { Authorization: "Bearer " + accessToken },
+        });
+
+        this.dataSource = response.data;
+        console.log(this.dataSource);
+      } catch (error) {
+        this.dataSource = `${error}`;
+      }
+    },
   },
 };
 </script>
+<style>
+#chart-demo {
+  height: 450px;
+}
+
+#zoomedChart {
+  height: 315px;
+  margin: 0 0 15px;
+}
+
+#chart-demo > div:not(#zoomedChart) {
+  height: 120px;
+}
+</style>

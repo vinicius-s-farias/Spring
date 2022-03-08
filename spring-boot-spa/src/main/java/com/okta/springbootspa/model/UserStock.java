@@ -41,7 +41,6 @@ public class UserStock implements Serializable {
         this.stock_name = stock_name;
         this.volume = volume;
     }
-
     public UserStock() {
 
     }

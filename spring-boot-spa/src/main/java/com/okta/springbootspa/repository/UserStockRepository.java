@@ -1,7 +1,5 @@
 package com.okta.springbootspa.repository;
 
-import com.okta.springbootspa.keys.Chave;
-import com.okta.springbootspa.model.User;
 import com.okta.springbootspa.model.UserStock;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -27,5 +25,7 @@ public interface UserStockRepository extends JpaRepository<UserStock, Long> {
     @Query(value =  "  select * from users_stocks_balances usb where id_user = ?1 " , nativeQuery = true)
     List<UserStock> FindUser(Long user);
 
+    @Query(value =  "  select * from users_stocks_balances usb where id_user = ?1 and id_stock = ?2 " , nativeQuery = true)
+    List<UserStock> FindStock(Long user, Long id_stock);
 
 }

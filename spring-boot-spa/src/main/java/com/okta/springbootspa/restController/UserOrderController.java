@@ -3,8 +3,10 @@ package com.okta.springbootspa.restController;
 import com.okta.springbootspa.dto.UserOrderDto;
 import com.okta.springbootspa.model.User;
 import com.okta.springbootspa.model.UserOrder;
+import com.okta.springbootspa.model.UserStock;
 import com.okta.springbootspa.repository.UserOrderRepository;
 import com.okta.springbootspa.repository.UserRepository;
+import com.okta.springbootspa.repository.UserStockRepository;
 import com.okta.springbootspa.service.MatchService;
 import com.okta.springbootspa.service.UserStockService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,8 @@ import java.util.List;
 public class UserOrderController {
     @Autowired
     private UserOrderRepository userOrderRepository;
+    @Autowired
+    private UserStockRepository userStockRepository;
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -33,17 +37,27 @@ public class UserOrderController {
     @PostMapping("/order")
     public ResponseEntity<UserOrder> criaOrdem(@RequestBody UserOrderDto dto ,@RequestHeader("Authorization") String token) {
         User user = userRepository.findById(dto.getId_user()).orElseThrow();
+        List<UserStock> teste = userStockRepository.FindStock(dto.getId_user(), dto.getId_stock());
         Double dollar = user.getDollar_balance();
         Double mult = dto.getPrice() * dto.getVolume();
-        if(dollar >= mult ) {
+        if(dollar >= mult && dto.getType() == 0) {
             UserOrder userOrders = userOrderRepository.save(dto.transObj(user));
             userStockService.teste1(userOrders.getId_stock(), token);
             matchService.match();
             return new ResponseEntity<>(userOrders, HttpStatus.CREATED);
-        } else {
-            System.out.println("Ordem não criada, valor insuficiente");
-        }
 
+        } else if(dto.getType() == 1 &&  !teste.isEmpty()  ){
+            if(dto.getVolume() <= teste.get(0).getVolume() ){
+                UserOrder userOrders = userOrderRepository.save(dto.transObj(user));
+                userStockService.teste1(userOrders.getId_stock(), token);
+                matchService.match();
+                return new ResponseEntity<>(userOrders, HttpStatus.CREATED);
+            }else {
+                System.out.println("Ordem não criada");
+            }
+        }else {
+            System.out.println("Ordem não criada");
+        }
         return null;
     }
 

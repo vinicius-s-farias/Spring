@@ -17,8 +17,7 @@ public class UserController {
 
     @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private User user;
+
 
     @GetMapping("/users")
     public List<User> listar() {
@@ -32,6 +31,11 @@ public class UserController {
             }else {
                 return us.get().getId();
             }
+    }
+
+    @GetMapping("/teste/{id}")
+    public List <User> list(@PathVariable ("id")Long user){
+        return userRepository.FindUser(user);
     }
 
     @PostMapping("/users")

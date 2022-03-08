@@ -19,7 +19,6 @@ public class UserOrderDto {
     private int status;
     private Long remaining_value;
 
-
     public UserOrder transObj(User user){
         return new UserOrder(
                 user,

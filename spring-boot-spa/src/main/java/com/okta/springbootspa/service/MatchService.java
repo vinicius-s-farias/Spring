@@ -25,7 +25,6 @@ public class MatchService {
             List<UserOrder> userSalePO = vendaRepository.findSalePO();
             List<UserOrder> userSaleNE = vendaRepository.findSaleNE();
 
-
         if(!userSalePO.isEmpty() ){
             System.out.println("venda positiva");
             for (UserOrder cont: userSalePO) {
@@ -44,7 +43,6 @@ public class MatchService {
                         compraRepository.RemainingNE(cont);
                     }
                     vendaRepository.updateStatus2();
-
                 }
 
                 if(!userBuyPO.isEmpty()){
